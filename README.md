@@ -1,6 +1,6 @@
 # BracelUS 
 
-Ce répertoire contient les fichiers source nécessaire à la compilation et la regénérationd es projets Vivado et Vitis pour BracelUS. Seuls les fichiers sources sont inclu afin de garder le contrôle de version possible.
+Ce répertoire contient les fichiers source nécessaire à la compilation et la regénérationd es projets Vivado et Vitis pour BracelUS. Seuls les fichiers sources sont inclu afin de garder le contrôle de version possible. Les scripts `tcl`rendent cela possible.
 
 Des scripts `tcl`sont inclu dans le répertoire `script`
 
