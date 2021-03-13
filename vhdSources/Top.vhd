@@ -64,47 +64,42 @@ architecture Behavioral of Top is
     
     component design_1_wrapper is
     port (
-        DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
-        DDR_ba : inout STD_LOGIC_VECTOR ( 2 downto 0 );
-        DDR_cas_n : inout STD_LOGIC;
-        DDR_ck_n : inout STD_LOGIC;
-        DDR_ck_p : inout STD_LOGIC;
-        DDR_cke : inout STD_LOGIC;
-        DDR_cs_n : inout STD_LOGIC;
-        DDR_dm : inout STD_LOGIC_VECTOR ( 3 downto 0 );
-        DDR_dq : inout STD_LOGIC_VECTOR ( 31 downto 0 );
-        DDR_dqs_n : inout STD_LOGIC_VECTOR ( 3 downto 0 );
-        DDR_dqs_p : inout STD_LOGIC_VECTOR ( 3 downto 0 );
-        DDR_odt : inout STD_LOGIC;
-        DDR_ras_n : inout STD_LOGIC;
-        DDR_reset_n : inout STD_LOGIC;
-        DDR_we_n : inout STD_LOGIC;
-        FIXED_IO_ddr_vrn : inout STD_LOGIC;
-        FIXED_IO_ddr_vrp : inout STD_LOGIC;
-        FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
-        FIXED_IO_ps_clk : inout STD_LOGIC;
-        FIXED_IO_ps_porb : inout STD_LOGIC;
-        FIXED_IO_ps_srstb : inout STD_LOGIC;
-        Pmod_8LD_pin10_io : inout STD_LOGIC;
-        Pmod_8LD_pin1_io : inout STD_LOGIC;
-        Pmod_8LD_pin2_io : inout STD_LOGIC;
-        Pmod_8LD_pin3_io : inout STD_LOGIC;
-        Pmod_8LD_pin4_io : inout STD_LOGIC;
-        Pmod_8LD_pin7_io : inout STD_LOGIC;
-        Pmod_8LD_pin8_io : inout STD_LOGIC;
-        Pmod_8LD_pin9_io : inout STD_LOGIC;
---        Pmod_OLED_pin10_io : inout STD_LOGIC;
---        Pmod_OLED_pin1_io : inout STD_LOGIC;
---        Pmod_OLED_pin2_io : inout STD_LOGIC;
---        Pmod_OLED_pin3_io : inout STD_LOGIC;
---        Pmod_OLED_pin4_io : inout STD_LOGIC;
---        Pmod_OLED_pin7_io : inout STD_LOGIC;
---        Pmod_OLED_pin8_io : inout STD_LOGIC;
---        Pmod_OLED_pin9_io : inout STD_LOGIC;
-        i_data_echantillon : in STD_LOGIC_VECTOR ( 11 downto 0 );
-        i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
-        o_data_out : out STD_LOGIC_VECTOR ( 31 downto 0 );
-        o_leds_tri_o : out STD_LOGIC_VECTOR ( 3 downto 0 )
+    DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
+    DDR_ba : inout STD_LOGIC_VECTOR ( 2 downto 0 );
+    DDR_cas_n : inout STD_LOGIC;
+    DDR_ck_n : inout STD_LOGIC;
+    DDR_ck_p : inout STD_LOGIC;
+    DDR_cke : inout STD_LOGIC;
+    DDR_cs_n : inout STD_LOGIC;
+    DDR_dm : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+    DDR_dq : inout STD_LOGIC_VECTOR ( 31 downto 0 );
+    DDR_dqs_n : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+    DDR_dqs_p : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+    DDR_odt : inout STD_LOGIC;
+    DDR_ras_n : inout STD_LOGIC;
+    DDR_reset_n : inout STD_LOGIC;
+    DDR_we_n : inout STD_LOGIC;
+    FIXED_IO_ddr_vrn : inout STD_LOGIC;
+    FIXED_IO_ddr_vrp : inout STD_LOGIC;
+    FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
+    FIXED_IO_ps_clk : inout STD_LOGIC;
+    FIXED_IO_ps_porb : inout STD_LOGIC;
+    FIXED_IO_ps_srstb : inout STD_LOGIC;
+    Pmod_8LD_pin10_io : inout STD_LOGIC;
+    Pmod_8LD_pin1_io : inout STD_LOGIC;
+    Pmod_8LD_pin2_io : inout STD_LOGIC;
+    Pmod_8LD_pin3_io : inout STD_LOGIC;
+    Pmod_8LD_pin4_io : inout STD_LOGIC;
+    Pmod_8LD_pin7_io : inout STD_LOGIC;
+    Pmod_8LD_pin8_io : inout STD_LOGIC;
+    Pmod_8LD_pin9_io : inout STD_LOGIC;
+    i_data_cardio : in STD_LOGIC_VECTOR ( 11 downto 0 );
+    i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
+    i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    o_cardio_analyse : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    o_leds_tri_o : out STD_LOGIC_VECTOR ( 3 downto 0 );
+    o_mouv_analyse0 : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    o_mouv_analyse1 : out STD_LOGIC_VECTOR ( 31 downto 0 )
     );
     end component;
 
@@ -113,12 +108,14 @@ architecture Behavioral of Top is
         reset                       : in    std_logic;  
         
         clk_ADC                     : in    std_logic;                      -- Horloge fourni à l'ADC
-        i_DO                        : in    std_logic;                      -- Bit de donnée en provenance de l'ADC           
+        i_DO0                       : in    std_logic;                      -- Bit de donnée en provenance de l'ADC           
+        i_DO1                       : in    std_logic;                      -- Bit de donnée en provenance de l'ADC           
         o_ADC_nCS                   : out   std_logic;                      -- Signal Chip select vers l'ADC 
         
         i_ADC_Strobe                : in    std_logic;                      -- synchronisation: déclencheur de la séquence d'échantillonnage  
         o_echantillon_pret_strobe   : out   std_logic;                      -- strobe indicateur d'une réception complète d'un échantillon  
-        o_echantillon               : out   std_logic_vector (11 downto 0)  -- valeur de l'échantillon reçu
+        o_echantillon_mouv          : out   std_logic_vector (11 downto 0); -- valeur de l'échantillon reçu
+        o_echantillon_cardio        : out   std_logic_vector (11 downto 0)  -- valeur de l'échantillon reçu
     );
     end  component;
     
@@ -129,7 +126,8 @@ architecture Behavioral of Top is
             i_strobe_collecte : in std_logic;
             ----
             o_DAC_tsync : out std_logic;
-            o_DAC_data : out std_logic
+            o_DAC_data0 : out std_logic;
+            o_DAC_data1 : out std_logic
          );
     end component;
    
@@ -162,8 +160,8 @@ architecture Behavioral of Top is
     signal reset                        : std_logic; 
     
     signal o_echantillon_pret_strobe    : std_logic;
-    signal d_ADC_Dselect                : std_logic; 
-    signal d_echantillon                : std_logic_vector (11 downto 0);
+    signal d_echantillon_mouv           : std_logic_vector (11 downto 0);
+    signal d_echantillon_cardio         : std_logic_vector (11 downto 0);
     
     
     -- COMPTEUR
@@ -231,27 +229,20 @@ begin
     begin
         adc_strobe <= q_adc_lire and not(q_prec_adc_lire);
     end process; 
-        
-     mux_select_Entree_AD1 : process (i_btn(3), i_ADC_D0, i_ADC_D1)
-     begin
-          if (i_btn(3) ='0') then 
-            d_ADC_Dselect <= i_ADC_D0;
-          else
-            d_ADC_Dselect <= i_ADC_D1;
-          end if;
-     end process;
      
     Controleur_ADC :  Ctrl_AD1 
     port map(
         reset                       => reset,
         
         clk_ADC                     => clk_5MHz,                    -- pour horloge externe de l'ADC 
-        i_DO                        => d_ADC_Dselect,               -- bit de données provenant de l'ADC (via um mux)       
+        i_DO0                       => i_ADC_D0,               -- bit de données provenant de l'ADC (via um mux)       
+        i_DO1                       => i_ADC_D1,               -- bit de données provenant de l'ADC (via um mux)       
         o_ADC_nCS                   => o_ADC_NCS,                   -- chip select pour le convertisseur (ADC )
         
         i_ADC_Strobe                => adc_strobe,              -- synchronisation: déclencheur de la séquence d'échantillonnage 
         o_echantillon_pret_strobe   => o_echantillon_pret_strobe,   -- strobe indicateur d'une réception complète d'un échantillon 
-        o_echantillon               => d_echantillon                -- valeur de l'échantillon reçu (12 bits)
+        o_echantillon_mouv          => d_echantillon_mouv,          -- valeur de l'échantillon reçu (12 bits)
+        o_echantillon_cardio        => d_echantillon_cardio         -- valeur de l'échantillon reçu (12 bits)
     );
     
     Controleur_DAC : Ctrl_DAC
@@ -260,7 +251,8 @@ begin
         i_reset                     => reset,
         i_strobe_collecte           => strobe_1_Hz, -- Oubli pas de rechanger pour 1Hz
         o_DAC_tsync                 => o_DAC_NCS,
-        o_DAC_data                  => o_DAC_D0 -- out_DAC_bit
+        o_DAC_data0                  => o_DAC_D0, -- out_DAC_bit
+        o_DAC_data1                  => o_DAC_D1 -- out_DAC_bit
     );
 
       
@@ -315,9 +307,9 @@ begin
 --        Pmod_OLED_pin8_io => Pmod_OLED(5),
 --        Pmod_OLED_pin9_io => Pmod_OLED(6),
 --        Pmod_OLED_pin10_io => Pmod_OLED(7),
-        i_data_echantillon=> d_echantillon,
+        i_data_mouvement=> d_echantillon_mouv,
+        i_data_cardio   => d_echantillon_cardio,
         i_sw_tri_i=> i_sw,
-        o_data_out=> open,
         o_leds_tri_o=> o_leds
     );
 
