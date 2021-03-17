@@ -14,7 +14,7 @@
 #include "xparameters.h"
 #include "sleep.h"
 #include "PmodGPIO.h"
-#include "myADCip.h"
+#include "MouvAnalyseIP.h"
 
 
 #define S4I_NUM_SWITCHES	4
