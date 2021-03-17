@@ -16,8 +16,8 @@ entity AD7476_mef is
 port(
     clk_ADC                 : in std_logic;
     reset			        : in std_logic;
-    i_bit                   : in std_logic;
     i_ADC_Strobe            : in std_logic;     --  cadence echantillonnage AD1
+    i_bit                   : in std_logic;
     i_val_cpt               : in std_logic_vector(3 downto 0);  
     o_ADC_nCS		        : out std_logic;    -- Signal Chip select vers l'ADC  
     o_Decale			    : out std_logic;    -- Signal de décalage   
@@ -64,7 +64,7 @@ begin
     end process;
     
     
-    process (curr_state, i_ADC_Strobe, i_val_cpt, i_bit)
+    process (curr_state, i_ADC_Strobe, i_val_cpt)
     begin
         case curr_state is
             when HOLD =>
@@ -74,7 +74,7 @@ begin
                     next_state <= curr_state;
                 end if;
             when SYNC => 
-                if i_val_cpt = "0010" and i_bit = '0' then ---- A changer pour 0010 en vrai, Ceci est juste pour la simule
+                if i_val_cpt = "0010"  and i_bit = '0' then ---- A changer pour 0010 en vrai, Ceci est juste pour l
                     next_state <= SAMPLE;
                 elsif i_bit = '1' then
                     next_state <= HOLD;

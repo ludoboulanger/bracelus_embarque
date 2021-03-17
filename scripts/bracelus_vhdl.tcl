@@ -72,7 +72,8 @@ proc checkRequiredFiles { origin_dir} {
   }
 
   set paths [list \
-   [file normalize "$origin_dir/../ipRepo/myADCip_1.0"] \
+   [file normalize "$origin_dir/../ipRepo/CardioAnalyseIP_1.0"] \
+   [file normalize "$origin_dir/../ipRepo/MouvAnalyseIP_1.0"] \
    [file normalize "$origin_dir/../vivado-library-2020.1"] \
   ]
   foreach ipath $paths {
@@ -206,8 +207,7 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 # Set IP repository paths
 set obj [get_filesets sources_1]
 if { $obj != {} } {
-   set_property "ip_repo_paths" "[file normalize "$origin_dir/../ipRepo/myADCip_1.0"] [file normalize "$origin_dir/../vivado-library-2020.1"]" $obj
-
+   set_property "ip_repo_paths" "[file normalize "$origin_dir/../ipRepo"] [file normalize "$origin_dir/../vivado-library-2020.1"]" $obj
    # Rebuild user ip_repo's index before adding any source files
    update_ip_catalog -rebuild
 }

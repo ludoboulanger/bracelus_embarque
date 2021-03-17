@@ -13,12 +13,14 @@ entity Ctrl_AD1 is
 port ( 
     reset                       : in    std_logic;  
     clk_ADC                     : in    std_logic; 						-- Horloge à fournir à l'ADC
-    i_DO                        : in    std_logic;                      -- Bit de donnée en provenance de l'ADC         
+    i_DO0                        : in    std_logic;                      -- Bit de donnée en provenance de l'ADC         
+    i_DO1                        : in    std_logic;                      -- Bit de donnée en provenance de l'ADC         
     o_ADC_nCS                   : out   std_logic;                      -- Signal Chip select vers l'ADC 
 	
     i_ADC_Strobe                : in    std_logic;                      -- Synchronisation: strobe déclencheur de la séquence de réception    
     o_echantillon_pret_strobe   : out   std_logic;                      -- strobe indicateur d'une réception complète d'un échantillon  
-    o_echantillon               : out   std_logic_vector (11 downto 0)  -- valeur de l'échantillon reçu
+    o_echantillon_mouv          : out   std_logic_vector (11 downto 0); -- valeur de l'échantillon reçu
+    o_echantillon_cardio        : out   std_logic_vector (11 downto 0)  -- valeur de l'échantillon reçu
 );
 end Ctrl_AD1;
 
@@ -28,8 +30,8 @@ architecture Behavioral of Ctrl_AD1 is
     port ( 
         clk_ADC                 : in    std_logic; 
         reset                   : in    std_logic; 
-        i_bit                   : in std_logic;
         i_ADC_Strobe            : in    std_logic;  --  cadence echantillonnage AD1
+        i_bit                   : in std_logic;
         i_val_cpt               : in    std_logic_vector(3 downto 0);
         o_ADC_nCS               : out   std_logic;  -- Signal Chip select vers l'ADC  
         o_Decale                : out   std_logic;  -- Signal de décalage
@@ -68,24 +70,24 @@ architecture Behavioral of Ctrl_AD1 is
     signal ncs : std_logic;
     
     signal en_decal : std_logic;
-    signal in_decal : std_logic;
-    signal out_decal : std_logic_vector(11 downto 0);
-    signal internal_out_decal : std_logic_vector(11 downto 0);
+    signal out_data_mouv : std_logic_vector(11 downto 0);
+    signal out_data_cardio : std_logic_vector(11 downto 0);
+    signal internal_data_mouv : std_logic_vector(11 downto 0);
+    signal internal_data_cardio : std_logic_vector(11 downto 0);
 
   
     
 begin
 
-    in_decal <= i_DO;
 
 --  Machine a etats finis pour le controle du AD7476
     MEF : AD7476_mef
     port map (
         clk_ADC                 => clk_ADC,
         reset                   => reset,
-        i_bit                   => i_DO,
         i_ADC_Strobe            => i_ADC_Strobe,
         i_val_cpt               => cpt_val,
+        i_bit => i_DO0,
         o_ADC_nCS               => ncs,
         o_Decale                => en_decal,
         o_FinSequence_Strobe    => done_strobe,
@@ -100,22 +102,35 @@ begin
         o_val_cpt               => cpt_val
     );
     
-    registre_12bits : reg_dec_12b
+    registre_12bits_mouv  : reg_dec_12b
     port map (
         i_clk => clk_ADC,
         i_reset => '0',
         i_en => en_decal,
-        i_dat_bit => in_decal, --entree serie
-        o_dat => out_decal
+        i_dat_bit => i_DO0, --entree serie
+        o_dat => out_data_mouv
+    );
+    
+    registre_12bits_cardio : reg_dec_12b
+    port map (
+        i_clk => clk_ADC,
+        i_reset => '0',
+        i_en => en_decal,
+        i_dat_bit => i_DO1, --entree serie
+        o_dat => out_data_cardio
     );
         
 
+  done_strobe_process : process(done_strobe)
+  begin
+      if(done_strobe = '1') then 
+          internal_data_mouv <= out_data_mouv;
+          internal_data_cardio <= out_data_cardio;
+      end if;
+  end process;
 
-  with done_strobe select
-        internal_out_decal <= out_decal when '1',
-                              internal_out_decal when others;
-
-  o_echantillon <= internal_out_decal;
+  o_echantillon_mouv <= internal_data_mouv;
+  o_echantillon_cardio <= internal_data_cardio;
   o_echantillon_pret_strobe <= done_strobe;
   o_ADC_nCS <= ncs;
 
