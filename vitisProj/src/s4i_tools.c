@@ -11,7 +11,7 @@
 #include <xgpio.h>
 #include <stdlib.h>
 
-#define MY_AD1_IP_BASEADDRESS  XPAR_MYADCIP_0_S00_AXI_BASEADDR
+#define MY_AD1_IP_BASEADDRESS  XPAR_MOUVANALYSEIP_0_MOUVANALYSEIP_BASEADDR
 #define AD1_NUM_BITS 	12
 
 XGpio s4i_xgpio_input_sws;
@@ -122,7 +122,7 @@ int get_o2()
 
 u16 AD1_GetSampleRaw()
 {
-	u16 rawData =  MYADCIP_mReadReg(MY_AD1_IP_BASEADDRESS, 0x0) & 0xFFF;
+	u16 rawData =  MOUVANALYSEIP_mReadReg(MY_AD1_IP_BASEADDRESS, 0x0) & 0xFFF;
 	xil_printf("Voltage : 0x%x\n\r", rawData);
 	return rawData;
 }
