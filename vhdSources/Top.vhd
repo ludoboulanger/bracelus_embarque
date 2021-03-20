@@ -93,14 +93,15 @@ architecture Behavioral of Top is
     Pmod_8LD_pin7_io : inout STD_LOGIC;
     Pmod_8LD_pin8_io : inout STD_LOGIC;
     Pmod_8LD_pin9_io : inout STD_LOGIC;
+    i_adc_strobe : in STD_LOGIC;
     i_data_cardio : in STD_LOGIC_VECTOR ( 11 downto 0 );
     i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
     i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
     o_cardio_analyse : out STD_LOGIC_VECTOR ( 31 downto 0 );
     o_leds_tri_o : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    o_mouv_analyse0 : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    o_mouv_analyse0 : out STD_LOGIC_VECTOR ( 1 downto 0 );
     o_mouv_analyse1 : out STD_LOGIC_VECTOR ( 31 downto 0 )
-    );
+  );
     end component;
 
     component Ctrl_AD1 is
@@ -307,6 +308,7 @@ begin
 --        Pmod_OLED_pin8_io => Pmod_OLED(5),
 --        Pmod_OLED_pin9_io => Pmod_OLED(6),
 --        Pmod_OLED_pin10_io => Pmod_OLED(7),
+        i_adc_strobe=> adc_strobe,
         i_data_mouvement=> d_echantillon_mouv,
         i_data_cardio   => d_echantillon_cardio,
         i_sw_tri_i=> i_sw,

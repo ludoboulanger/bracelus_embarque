@@ -74,10 +74,8 @@ begin
                     next_state <= curr_state;
                 end if;
             when SYNC => 
-                if i_val_cpt = "0010"  and i_bit = '0' then ---- A changer pour 0010 en vrai, Ceci est juste pour l
+                if i_val_cpt = "0010"  then ---- A changer pour 0010 en vrai, Ceci est juste pour l
                     next_state <= SAMPLE;
-                elsif i_bit = '1' then
-                    next_state <= HOLD;
                 else
                     next_state <= curr_state;
                 end if;

@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 02/18/2021 11:28:55 AM
+-- Create Date: 03/20/2021 01:02:12 PM
 -- Design Name: 
--- Module Name: Ctrl_DAC - Behavioral
+-- Module Name: analyse_mouv_tb - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -21,92 +21,41 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
-use IEEE.NUMERIC_STD.ALL;
+--use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Ctrl_DAC is
+entity analyse_mouv_tb is
+--  Port ( );
+end analyse_mouv_tb;
+
+architecture Behavioral of analyse_mouv_tb is
+
+component analyse_zone_mouv is
     Port (
-        clk_DAC : in std_logic;
-        i_reset : in std_logic;
-        i_strobe_collecte : in std_logic;
-        ----
-        o_DAC_tsync : out std_logic;
-        o_DAC_data0 : out std_logic;
-        o_DAC_data1 : out std_logic
-     );
-end Ctrl_DAC;
-
-architecture Behavioral of Ctrl_DAC is
-
-component compteur_nbits is
-generic (nbits : integer := 4);
-   port ( clk             : in    std_logic; 
-          i_en            : in    std_logic; 
-          reset           : in    std_logic; 
-          o_val_cpt       : out   std_logic_vector (nbits-1 downto 0)
-          );
+    i_bclk    : in   std_logic;   -- bit clock
+    i_reset   : in   std_logic;
+    i_en      : in   std_logic;   -- un echantillon present
+    i_ech     : in   std_logic_vector (11 downto 0);
+    o_param   : out  std_logic_vector (11 downto 0)                                     
+    );
 end component;
 
-component dac_mef is
-    Port (
-        clk_DAC : in std_logic;
-        i_reset : in std_logic;
-        strobe_collecte : in std_logic;
-        i_cpt_val : in std_logic_vector(3 downto 0);
-        ----
-        o_t_sync : out std_logic;
-        o_rst_cpt : out std_logic;
-        o_done : out std_logic;
-        o_en_reg : out std_logic;
-        o_load_reg : out std_logic       
-     );
-end component;
-
-component registre_16b is
-    Port ( i_clk : in STD_LOGIC;
-           i_reset : in STD_LOGIC;
-           i_en : in STD_LOGIC;
-           i_load : in STD_LOGIC;
-           i_dat_load : in STD_LOGIC_VECTOR (15 downto 0);
-           o_dat : out STD_LOGIC);
-end component;
+signal sim_sys_clock : std_logic;
+constant sim_sys_clk_period : time := 20 ns;
 
 --constant nbEchantillonMemoireMouv : integer := 24;
 constant nbEchantillonMemoireMouv : integer := 402;
 type tableau_mouv is array (integer range 0 to nbEchantillonMemoireMouv - 1) of std_logic_vector(11 downto 0);
---constant mem_forme_signal_mouv : tableau_mouv := (
---    x"800", --800
---    x"A11",
---    x"BFF",
---    x"DA7",
---    x"EEC",
---    x"FB9",
---    x"FFF",
---    x"FB9",
---    x"EEC",
---    x"DA7",
---    x"BFF",
---    x"A11",
---    x"800",
---    x"5EE",
---    x"400",
---    x"258",
---    x"113",
---    x"046",
---    x"001",
---    x"046",
---    x"113",
---    x"258",
---    x"400",
---    x"5EE"
---);
+
 
 constant mem_forme_signal_mouv : tableau_mouv := (
     x"800",
@@ -516,37 +465,7 @@ x"030"
 
 );
 
-
-constant nbEchantillonMemoireCardio : integer := 24;
---constant nbEchantillonMemoire : integer := 201;
-type tableau_cardio is array (integer range 0 to nbEchantillonMemoireCardio - 1) of std_logic_vector(11 downto 0);
-constant mem_forme_signal_cardio : tableau_cardio := (
-    x"400",
-    x"258",
-    x"113",
-    x"046",
-    x"001",
-    x"046",
-    x"113",
-    x"258",
-    x"400",
-    x"5EE",
-    x"800", --800
-    x"A11",
-    x"BFF",
-    x"DA7",
-    x"EEC",
-    x"FB9",
-    x"FFF",
-    x"FB9",
-    x"EEC",
-    x"DA7",
-    x"BFF",
-    x"A11",
-    x"800",
-    x"5EE"
-);
-    constant c_NbIteration : unsigned(3 downto 0) := "1000";
+signal i_reset : std_logic :='0';
 
     signal d_compteur_echantillonMemoireMouv : unsigned(7 downto 0) := (others => '0');
     signal d_compteur_echantillonMemoireCardio : unsigned(7 downto 0) := (others => '0');
@@ -557,113 +476,51 @@ constant mem_forme_signal_cardio : tableau_cardio := (
     signal q_prec_collecte : std_logic;
     signal q_strobe_collecte : std_logic;
     
-    signal cpt_val : std_logic_vector(3 downto 0) := "0000";
+    signal sim_moy: std_logic_vector(11 downto 0);
     
-    signal dac_t_sync : std_logic := '1';
-    signal dac_t_sync_prec : std_logic := '0';
-    signal reset_cpt : std_logic := '0';
-    signal dac_echantillon : std_logic;
-    signal done_ech : std_logic := '0';
-    
-    signal load_reg : std_logic := '0';
-    signal en_reg : std_logic := '0';
-    signal out_reg_mouv : std_logic := '0';
-    signal out_reg_cardio : std_logic := '0';
-
 begin
 
-  reg_16b_mouv : registre_16b
-    port map (
-        i_clk => clk_DAC,
-        i_reset => '0',
-        i_en => en_reg,
-        i_load => load_reg,
-        i_dat_load => d_echantillonMemoireMouv,
-        o_dat => out_reg_mouv
-    );
-    reg_16b_cardio : registre_16b
-    port map (
-        i_clk => clk_DAC,
-        i_reset => '0',
-        i_en => en_reg,
-        i_load => load_reg,
-        i_dat_load => d_echantillonMemoireCardio,
-        o_dat => out_reg_cardio
+
+    inst_analyse: analyse_zone_mouv
+    Port map (
+    i_bclk    => sim_sys_clock,
+    i_reset   => i_reset,
+    i_en      => '1',
+    i_ech     => d_echantillonMemoireMouv,
+    o_param   => sim_moy                         
     );
 
-    compteur : compteur_nbits
-    port map (
-        clk => clk_DAC,
-        i_en => '1',
-        reset => reset_cpt,
-        o_val_cpt => cpt_val
-    );
     
-    mef : dac_mef
-    port map (
-        clk_DAC => clk_DAC,
-        i_reset => i_reset,
-        strobe_collecte => i_strobe_collecte,
-        i_cpt_val => cpt_val,
-        ----
-        o_t_sync => dac_t_sync,
-        o_rst_cpt => reset_cpt,
-        o_done => done_ech,
-        o_en_reg => en_reg,
-        o_load_reg => load_reg
-    );
+    -- clock 50MHz
+    sys_clock_process : process
+       begin
+            sim_sys_clock <= '0';
+            wait for sim_sys_clk_period/2;
+            sim_sys_clock <= '1';
+            wait for sim_sys_clk_period/2;
+       end process;
+       
 
-    lireEchantillonMouv : process (i_reset, clk_DAC)
+
+    lireEchantillonMouv : process (i_reset, sim_sys_clock)
         begin
            if(i_reset = '1') then 
               d_compteur_echantillonMemoireMouv <= x"00";
               d_echantillonMemoireMouv <= x"0000";
               q_iteration <= (others => '0');
            else
-              if rising_edge(clk_DAC) then
-                 if (i_strobe_collecte = '1') then
+              if rising_edge(sim_sys_clock) then
                      d_echantillonMemoireMouv <= "0000"&mem_forme_signal_mouv(to_integer(d_compteur_echantillonMemoireMouv));
-                     q_collecte <= '1';
                         if (d_compteur_echantillonMemoireMouv = mem_forme_signal_mouv'length-1) then
                             d_compteur_echantillonMemoireMouv <= x"00";
                             q_iteration <= q_iteration + 1;
                         else
                             d_compteur_echantillonMemoireMouv <= d_compteur_echantillonMemoireMouv + 1;
                         end if;
-                 else
-                    q_collecte <= '0';
-                 end if;
-             end if;
-           end if;
-        end process;    
-        
-        lireEchantillonCardio : process (i_reset, clk_DAC)
-        begin
-           if(i_reset = '1') then 
-              d_compteur_echantillonMemoireCardio <= x"00";
-              d_echantillonMemoireCardio <= x"0000";
-              q_iteration <= (others => '0');
-           else
-              if rising_edge(clk_DAC) then
-                 if (i_strobe_collecte = '1') then
-                     d_echantillonMemoireCardio <= "0000"&mem_forme_signal_cardio(to_integer(d_compteur_echantillonMemoireCardio));
-                     q_collecte <= '1';
-                        if (d_compteur_echantillonMemoireCardio = mem_forme_signal_cardio'length-1) then
-                            d_compteur_echantillonMemoireCardio <= x"00";
-                            q_iteration <= q_iteration + 1;
-                        else
-                            d_compteur_echantillonMemoireCardio <= d_compteur_echantillonMemoireCardio + 1;
                         end if;
-                 else
-                    q_collecte <= '0';
-                 end if;
              end if;
-           end if;
-        end process;   
-        
-        
-   o_DAC_data0 <= out_reg_mouv;
-   o_DAC_data1 <= out_reg_cardio;
-   o_DAC_tsync <= dac_t_sync;
+        end process;  
+
+
 
 end Behavioral;
