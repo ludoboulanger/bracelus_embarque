@@ -413,17 +413,16 @@ begin
     o_param   => s_moyenne                             
     );
 	
---	process(s_moyenne)
---	begin
---	if(s_moyenne > "1111101000") then
---	   s_data_out0(1 downto 0) <= "10";
---	elsif(s_moyenne > "1100100") then
---	   s_data_out0(1 downto 0) <= "01";
---    else 
---        s_data_out0(1 downto 0) <= "00";
---    end if;
---	end process;
-    s_data_out0(11 downto 0) <= s_moyenne;
+	process(s_moyenne)
+	begin
+	if(s_moyenne > "110010000") then
+	   s_data_out0(1 downto 0) <= "10";
+	elsif(s_moyenne > "1100100") then
+	   s_data_out0(1 downto 0) <= "01";
+    else 
+        s_data_out0(1 downto 0) <= "00";
+    end if;
+	end process;
 	
 	--Assigner les sorties aux signaux s_data_out0 et s_data_out1 
     o_data_out0 <= s_data_out0(1 downto 0);

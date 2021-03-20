@@ -205,13 +205,13 @@ begin
         o_val_cpt => cpt_val
     );
     
-    process (clk_5MHz, strobe_1_Hz, cpt_val) -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
+    process (clk_5MHz, d_strobe_100Hz, cpt_val) -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
    begin
         if cpt_val = "1001011000" then -- 1001011000
             cpt_en <= '0';
             cpt_reset <= '1';
             q_adc_lire <= '1';
-        elsif strobe_1_Hz = '1' then  -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
+        elsif d_strobe_100Hz = '1' then  -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
             cpt_reset <= '0';
             cpt_en <= '1';
             q_adc_lire <= '0';
@@ -250,7 +250,7 @@ begin
     port map (
         clk_DAC                     => clk_5MHz,
         i_reset                     => reset,
-        i_strobe_collecte           => strobe_1_Hz, -- Oubli pas de rechanger pour 1Hz
+        i_strobe_collecte           => d_strobe_100Hz, -- Oubli pas de rechanger pour 1Hz
         o_DAC_tsync                 => o_DAC_NCS,
         o_DAC_data0                  => o_DAC_D0, -- out_DAC_bit
         o_DAC_data1                  => o_DAC_D1 -- out_DAC_bit
