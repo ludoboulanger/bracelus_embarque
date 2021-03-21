@@ -17,7 +17,18 @@ Afin de recompiler et générer les projets, il faut générer celui de Vivado e
 
 ## Vitis
 
+### Projet principal
 1. Ouvrir le CLI `Xilinx Software Command Line tool`
 2. Naviguer vers le répertoire `scripts`
-3. Exécuter la commande `source vitisProj.tcl`
-4. Le projet Vitis sera alors compilé
+3. Change les paths dnas le fichiers `.tcl` pour qu'ils concordent avec votre organisation de fichiers
+4. Exécuter la commande `source vitis.tcl`
+5. Le projet Vitis sera alors compilé
+
+### Tests
+Un projet Vitis de test peut être créer afin de valider le bon fonctionnement des IPs en vhdl. Aafin de créer ce projet:
+1. Ouvrir le CLI `Xilinx Software Command Line tool`
+2. Naviguer vers le répertoire `scripts`
+3. 3. Change les paths dnas le fichiers `.tcl` pour qu'ils concordent avec votre organisation de fichiers
+4. Exécuter la commande `source vitisTest.tcl`
+6. Le projet Vitis sera alors compilé
+7. Le main contient les tests à faire avec le IP, il est possible d'en rajouter. Faire attention à sélectionner le bon régistre de lecture. Ce dernier peux être localiser dans le fichier `.h` de l'IP en question
