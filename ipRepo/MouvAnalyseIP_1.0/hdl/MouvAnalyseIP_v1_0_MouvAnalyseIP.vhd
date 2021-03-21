@@ -131,8 +131,8 @@ architecture arch_imp of MouvAnalyseIP_v1_0_MouvAnalyseIP is
 	signal byte_index	: integer;
 	signal aw_en	: std_logic;
 	
-    signal s_data_out0 : std_logic_vector(31 downto 0);
-    signal s_data_out1 : std_logic_vector(31 downto 0);
+	signal s_data_out0	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+	signal s_data_out1	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
     signal s_moyenne : std_logic_vector(11 downto 0);
 
 begin
@@ -363,7 +363,7 @@ begin
 	-- and the slave is ready to accept the read address.
 	slv_reg_rden <= axi_arready and S_AXI_ARVALID and (not axi_rvalid) ;
 
-	process (slv_reg0, slv_reg1, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
+	process (s_data_out0, s_data_out1, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
 	variable loc_addr :std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
 	begin
 	    -- Address decoding for reading registers
@@ -415,9 +415,9 @@ begin
 	
 	process(s_moyenne)
 	begin
-	if(s_moyenne > "110010000") then
+	if(unsigned(s_moyenne) > "110010000") then
 	   s_data_out0(1 downto 0) <= "10";
-	elsif(s_moyenne > "1100100") then
+	elsif(unsigned(s_moyenne) > "1100100") then
 	   s_data_out0(1 downto 0) <= "01";
     else 
         s_data_out0(1 downto 0) <= "00";
@@ -426,10 +426,10 @@ begin
 	
 	--Assigner les sorties aux signaux s_data_out0 et s_data_out1 
     o_data_out0 <= s_data_out0(1 downto 0);
-    o_data_out1 <= s_data_out0;
+    o_data_out1 <= s_data_out1;
 	
 	--Analyse..... Pour le moment aucune analyse donc regs = echantillon
-	s_data_out1(11 downto 0) <= i_data_echantillon;
+	s_data_out1(11 downto 0) <= s_moyenne;
 	
 	-- User logic ends
 

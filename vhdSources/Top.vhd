@@ -172,13 +172,7 @@ architecture Behavioral of Top is
      
      --ADC
      signal adc_strobe : std_logic := '0';
-     signal rentre_donnee : std_logic := '0';
-     signal i_dat_ADC : std_logic;
-     signal index_data : unsigned(7 downto 0) := (others => '0');
      signal ADC_ncs : std_logic := '1';
-
-     signal ech_pret_strobe : std_logic;
-     signal o_ech : std_logic_vector(11 downto 0);
      
      signal q_adc_lire : std_logic := '0';
      signal q_prec_adc_lire : std_logic := '0';
