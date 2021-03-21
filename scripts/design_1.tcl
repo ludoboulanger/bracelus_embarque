@@ -205,10 +205,11 @@ proc create_root_design { parentCell } {
 
 
   # Create ports
+  set i_adc_strobe [ create_bd_port -dir I i_adc_strobe ]
   set i_data_cardio [ create_bd_port -dir I -from 11 -to 0 i_data_cardio ]
   set i_data_mouvement [ create_bd_port -dir I -from 11 -to 0 i_data_mouvement ]
   set o_cardio_analyse [ create_bd_port -dir O -from 31 -to 0 o_cardio_analyse ]
-  set o_mouv_analyse0 [ create_bd_port -dir O -from 31 -to 0 o_mouv_analyse0 ]
+  set o_mouv_analyse0 [ create_bd_port -dir O -from 1 -to 0 o_mouv_analyse0 ]
   set o_mouv_analyse1 [ create_bd_port -dir O -from 31 -to 0 o_mouv_analyse1 ]
 
   # Create instance: CardioAnalyseIP_0, and set properties
@@ -740,6 +741,7 @@ proc create_root_design { parentCell } {
   connect_bd_net -net CardioAnalyseIP_0_o_data_out [get_bd_ports o_cardio_analyse] [get_bd_pins CardioAnalyseIP_0/o_data_out]
   connect_bd_net -net MouvAnalyseIP_0_o_data_out0 [get_bd_ports o_mouv_analyse0] [get_bd_pins MouvAnalyseIP_0/o_data_out0]
   connect_bd_net -net MouvAnalyseIP_0_o_data_out1 [get_bd_ports o_mouv_analyse1] [get_bd_pins MouvAnalyseIP_0/o_data_out1]
+  connect_bd_net -net i_adc_strobe_0_1 [get_bd_ports i_adc_strobe] [get_bd_pins MouvAnalyseIP_0/i_adc_strobe]
   connect_bd_net -net i_data_echantillon_0_1 [get_bd_ports i_data_mouvement] [get_bd_pins MouvAnalyseIP_0/i_data_echantillon]
   connect_bd_net -net i_data_echantillon_0_2 [get_bd_ports i_data_cardio] [get_bd_pins CardioAnalyseIP_0/i_data_echantillon]
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins CardioAnalyseIP_0/s00_axi_aclk] [get_bd_pins MouvAnalyseIP_0/mouvanalyseip_aclk] [get_bd_pins PmodGPIO_0/s_axi_aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins ps7_0_axi_periph/M01_ACLK] [get_bd_pins ps7_0_axi_periph/M02_ACLK] [get_bd_pins ps7_0_axi_periph/M03_ACLK] [get_bd_pins ps7_0_axi_periph/M04_ACLK] [get_bd_pins ps7_0_axi_periph/M05_ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins rst_ps7_0_50M/slowest_sync_clk]
@@ -766,9 +768,6 @@ proc create_root_design { parentCell } {
 ##################################################################
 # MAIN FLOW
 ##################################################################
-
-
-common::send_gid_msg -ssname BD::TCL -id 2052 -severity "CRITICAL WARNING" "This Tcl script was generated from a block design that is out-of-date/locked. It is possible that design <$design_name> may result in errors during construction."
 
 create_root_design ""
 
