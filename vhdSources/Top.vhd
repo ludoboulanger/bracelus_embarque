@@ -94,6 +94,7 @@ architecture Behavioral of Top is
     Pmod_8LD_pin8_io : inout STD_LOGIC;
     Pmod_8LD_pin9_io : inout STD_LOGIC;
     i_adc_strobe : in STD_LOGIC;
+    i_bclk_0 : in STD_LOGIC;
     i_data_cardio : in STD_LOGIC_VECTOR ( 11 downto 0 );
     i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
     i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -201,7 +202,7 @@ begin
     );
     
     process (clk_5MHz, d_strobe_100Hz, cpt_val) -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
-   begin
+    begin
         if rising_edge(clk_5MHz) then
             if cpt_val = "1001011000" then -- 1001011000
                 cpt_en <= '0';
@@ -298,14 +299,7 @@ begin
         Pmod_8LD_pin8_io => Pmod_8LD(5),
         Pmod_8LD_pin9_io => Pmod_8LD(6),
         Pmod_8LD_pin10_io  => Pmod_8LD(7),
---        Pmod_OLED_pin1_io => Pmod_OLED(0),
---        Pmod_OLED_pin2_io => Pmod_OLED(1),
---        Pmod_OLED_pin3_io => Pmod_OLED(2),
---        Pmod_OLED_pin4_io => Pmod_OLED(3),
---        Pmod_OLED_pin7_io => Pmod_OLED(4),
---        Pmod_OLED_pin8_io => Pmod_OLED(5),
---        Pmod_OLED_pin9_io => Pmod_OLED(6),
---        Pmod_OLED_pin10_io => Pmod_OLED(7),
+        i_bclk_0 => clk_5MHz,
         i_adc_strobe=> adc_strobe,
         i_data_mouvement=> d_echantillon_mouv,
         i_data_cardio   => d_echantillon_cardio,
