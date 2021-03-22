@@ -125,6 +125,7 @@ architecture Behavioral of Top is
             clk_DAC : in std_logic;
             i_reset : in std_logic;
             i_strobe_collecte : in std_logic;
+            i_signal_select : in std_logic_vector(2 downto 0);
             ----
             o_DAC_tsync : out std_logic;
             o_DAC_data0 : out std_logic;
@@ -245,6 +246,7 @@ begin
         clk_DAC                     => clk_5MHz,
         i_reset                     => reset,
         i_strobe_collecte           => d_strobe_100Hz, -- Oubli pas de rechanger pour 1Hz
+        i_signal_select             => i_sw(2 downto 0),
         o_DAC_tsync                 => o_DAC_NCS,
         o_DAC_data0                  => o_DAC_D0, -- out_DAC_bit
         o_DAC_data1                  => o_DAC_D1 -- out_DAC_bit
