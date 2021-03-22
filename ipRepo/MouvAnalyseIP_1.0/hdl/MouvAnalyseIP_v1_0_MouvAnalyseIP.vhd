@@ -420,7 +420,7 @@ begin
 	begin
 	if(unsigned(s_moyenne) > "110010000") then
 	   s_data_out0(1 downto 0) <= "10";
-	elsif(unsigned(s_moyenne) > "001") then
+	elsif(unsigned(s_moyenne) > "100000") then
 	   s_data_out0(1 downto 0) <= "01";
     else 
         s_data_out0(1 downto 0) <= "00";

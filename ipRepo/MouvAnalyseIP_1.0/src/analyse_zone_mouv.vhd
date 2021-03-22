@@ -72,10 +72,12 @@ begin
             d_last_y <= (others => '0');
             d_mul_y <= (others => '0');
             d_y <= (others => '0');
-        elsif(rising_edge(i_bclk) and i_echantillon_pret = '1') then
-            d_y <= d_ech_sqrt + d_last_y;
-            d_last_y <= d_mul_y(29)&d_mul_y(27 downto 5);
-            d_mul_y <= d_y * "011111";
+        elsif(rising_edge(i_bclk)) then
+            if i_echantillon_pret = '1' then
+                d_y <= d_ech_sqrt + d_last_y;
+                d_last_y <= d_mul_y(29)&d_mul_y(27 downto 5);
+                d_mul_y <= d_y * "011111";
+            end if;
         end if;
     end process;    
 
