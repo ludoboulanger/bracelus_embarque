@@ -41,7 +41,7 @@ architecture Behavioral of reg_dec_12b is
     
   begin 
   -- registre a décalage,  MSB arrive premier, entre par la droite, decalage a gauche  
-  reg_dec: process (i_clk, i_reset)
+  reg_dec: process (i_clk, i_reset, i_en)
      begin    
        if (i_reset = '1')  then
           q_shift_reg  <= (others =>'0');

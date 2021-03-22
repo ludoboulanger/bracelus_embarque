@@ -202,14 +202,16 @@ begin
     
     process (clk_5MHz, d_strobe_100Hz, cpt_val) -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
    begin
-        if cpt_val = "1001011000" then -- 1001011000
-            cpt_en <= '0';
-            cpt_reset <= '1';
-            q_adc_lire <= '1';
-        elsif d_strobe_100Hz = '1' then  -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
-            cpt_reset <= '0';
-            cpt_en <= '1';
-            q_adc_lire <= '0';
+        if rising_edge(clk_5MHz) then
+            if cpt_val = "1001011000" then -- 1001011000
+                cpt_en <= '0';
+                cpt_reset <= '1';
+                q_adc_lire <= '1';
+            elsif d_strobe_100Hz = '1' then  -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
+                cpt_reset <= '0';
+                cpt_en <= '1';
+                q_adc_lire <= '0';
+            end if;
         end if;
    end process;
             
