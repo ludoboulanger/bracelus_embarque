@@ -38,7 +38,7 @@ char* 			get_zone_cardiaque();
 int 			get_bpm();
 
 // Capteur de mouvement
-float			get_mouv_donnee();
+u16				get_mouv_donnee();
 int				get_reminder();
 
 // Autre

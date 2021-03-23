@@ -209,7 +209,15 @@ int do_http_get(int sd, char *req, int rlen)
     } else if (s4i_is_analyse_activite_physique(req)) {
 
     	char mouv_buf[50];
-    	sprintf(mouv_buf, "{\"niveau\": \"%2.2f\"}", get_mouv_donnee());
+    	u16 res = get_mouv_donnee();
+    	xil_printf("Result Mouvement: %d\r\n", res);
+    	if (res == 2) {
+    		sprintf(mouv_buf, "{\"niveau\": \"Zone Intense\"}");
+    	} else if (res == 1) {
+    		sprintf(mouv_buf, "{\"niveau\": \"Zone Basse\"}");
+    	} else {
+    		sprintf(mouv_buf, "{\"niveau\": \"Zone Nulle\"}");
+    	}
 
     	unsigned int mouv_len = strlen(mouv_buf);
     	unsigned int len = generate_http_header(buf, "js", mouv_len);

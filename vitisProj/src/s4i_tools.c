@@ -79,13 +79,13 @@ unsigned int s4i_get_sws_state()
     return XGpio_DiscreteRead(&s4i_xgpio_input_sws, 1);
 }
 
-float get_mouv_donnee() {
+u16 get_mouv_donnee() {
 
 	// Pour l'instant on génère un nombre et on choisi le niveau d'activité selon ce dernier
 	// int niv_act = rand() % 3;
 
-	float tension_mouvement = AD1_GetSampleVoltage();
-	return tension_mouvement;
+	u16 resultat_mouvement = AD1_GetSampleRaw();
+	return resultat_mouvement;
 
 }
 
@@ -123,7 +123,6 @@ int get_o2()
 u16 AD1_GetSampleRaw()
 {
 	u16 rawData =  MOUVANALYSEIP_mReadReg(MY_AD1_IP_BASEADDRESS, 0x0) & 0xFFF;
-	xil_printf("Voltage : 0x%x\n\r", rawData);
 	return rawData;
 }
 
