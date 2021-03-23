@@ -14,12 +14,14 @@
 #include "xparameters.h"
 #include "sleep.h"
 #include "PmodGPIO.h"
+#include "PmodOLED.h"
 #include "MouvAnalyseIP.h"
 #include "CardioAnalyseIP.h"
 
 u16 AD1_GetSampleRaw();
 float AD1_GetSampleVoltage();
 void DisplayVoltage(float value, char *voltage_char);
+u16 getMouvZone();
 
 #define MOUV_IP_BASE_ADDR  XPAR_MOUVANALYSEIP_0_MOUVANALYSEIP_BASEADDR
 #define CARDIO_IP_BASE_ADDR  XPAR_CARDIOANALYSEIP_0_S00_AXI_BASEADDR
@@ -27,15 +29,19 @@ void DisplayVoltage(float value, char *voltage_char);
 
 const float ReferenceVoltage = 3.3;
 
+u16 last0;
+u16 last1;
+u16 last2;
+u16 mouvZone;
 
 int main()
 {
 	XGpio inputSW, outputLED;
 	PmodGPIO pmod8LD;
+	PmodOLED oledDevice;
 	int sw_data = 0;
 	u8 pmod8LDvalue = 0;
 	float currentVoltage = 0;
-	char voltageChar[5];
 
     print("Bienvenue\n\r");
 
@@ -49,6 +55,16 @@ int main()
 
 	// Initialiser PmodGPIO pour le Pmod_8LD
 	GPIO_begin(&pmod8LD, XPAR_PMODGPIO_0_AXI_LITE_GPIO_BASEADDR, 0x00);
+
+	// Initialiser le Pmod Oled
+	OLED_Begin(&oledDevice, XPAR_PMODOLED_0_AXI_LITE_GPIO_BASEADDR, XPAR_PMODOLED_0_AXI_LITE_SPI_BASEADDR, 0, 0);
+	// Désactiver la mise à jour automatique de l'écran de l'OLED
+	OLED_SetCharUpdate(&oledDevice, 0);
+	// Préparer l'écran pour afficher l'état des boutons et des switch
+	OLED_ClearBuffer(&oledDevice);
+	OLED_SetCursor(&oledDevice, 0, 3);
+	OLED_PutString(&oledDevice, "Salut :)");
+	OLED_Update(&oledDevice);
 
 
 
@@ -71,14 +87,27 @@ int main()
 		// 0.0V => tous les leds éteints
 		pmod8LDvalue = 0xFF << (8 - (u8)(currentVoltage / ReferenceVoltage * 8));
 		GPIO_setPins(&pmod8LD,pmod8LDvalue);
+
+		mouvZone = getMouvZone();
+		OLED_ClearBuffer(&oledDevice);
+		OLED_SetCursor(&oledDevice, 0, 3);
+
+		if (mouvZone == 2) {
+			OLED_PutString(&oledDevice, "Intense");
+		} else if (mouvZone == 1) {
+			OLED_PutString(&oledDevice, "Basse");
+		} else {
+			OLED_PutString(&oledDevice, "Sedentaire");
+		}
+
+
+		OLED_Update(&oledDevice);
+
 	}
 
     return 0;
 }
 
-u16 last0;
-u16 last1;
-u16 last2;
 u16 AD1_GetSampleRaw()
 {
 	u16 rawData0 =  MOUVANALYSEIP_mReadReg(MOUV_IP_BASE_ADDR, MOUVANALYSEIP_MouvAnalyseIP_SLV_REG0_OFFSET) & 0xFFF;
@@ -106,6 +135,11 @@ float AD1_GetSampleVoltage()
 
 	return (float)rawSample * conversionFactor;
 
+}
+
+u16 getMouvZone() {
+	u16 mouvZone =  MOUVANALYSEIP_mReadReg(MOUV_IP_BASE_ADDR, MOUVANALYSEIP_MouvAnalyseIP_SLV_REG0_OFFSET) & 0xFFF;
+	return mouvZone;
 }
 
 

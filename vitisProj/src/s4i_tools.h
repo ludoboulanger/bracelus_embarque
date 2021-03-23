@@ -15,6 +15,7 @@
 #include "sleep.h"
 #include "PmodGPIO.h"
 #include "MouvAnalyseIP.h"
+#include "PmodOLED.h"
 
 
 #define S4I_NUM_SWITCHES	4
@@ -43,6 +44,7 @@ int				get_reminder();
 
 // Autre
 int 			get_o2();
+void 			updateOLED(int selector, char* value);
 
 u16 AD1_GetSampleRaw();
 float AD1_GetSampleVoltage();

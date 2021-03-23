@@ -213,10 +213,13 @@ int do_http_get(int sd, char *req, int rlen)
     	xil_printf("Result Mouvement: %d\r\n", res);
     	if (res == 2) {
     		sprintf(mouv_buf, "{\"niveau\": \"Zone Intense\"}");
+    		updateOLED(0, "Zone Intense");
     	} else if (res == 1) {
     		sprintf(mouv_buf, "{\"niveau\": \"Zone Basse\"}");
+    		updateOLED(0, "Zone Basse");
     	} else {
     		sprintf(mouv_buf, "{\"niveau\": \"Zone Nulle\"}");
+    		updateOLED(0, "Zone Nulle");
     	}
 
     	unsigned int mouv_len = strlen(mouv_buf);

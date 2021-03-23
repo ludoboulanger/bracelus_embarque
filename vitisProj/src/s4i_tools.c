@@ -17,12 +17,15 @@
 XGpio s4i_xgpio_input_sws;
 
 const float ReferenceVoltage = 3.3;
+PmodOLED oledDevice;
 
 void s4i_init_hw()
 {
     // Initialise l'accï¿½s au matÅ½riel GPIO pour s4i_get_sws_state().
 	XGpio_Initialize(&s4i_xgpio_input_sws, XPAR_AXI_GPIO_0_DEVICE_ID);
 	XGpio_SetDataDirection(&s4i_xgpio_input_sws, 1, 0xF);
+	// Init PMOD OLED
+	OLED_Begin(&oledDevice, XPAR_PMODOLED_0_AXI_LITE_GPIO_BASEADDR, XPAR_PMODOLED_0_AXI_LITE_SPI_BASEADDR, 0, 0);
 }
 
 int s4i_is_cmd_sws(char *buf)
@@ -134,5 +137,12 @@ float AD1_GetSampleVoltage()
 	u16 rawSample = AD1_GetSampleRaw();
 
 	return (float)rawSample * conversionFactor;
+}
+
+void updateOLED(int selector, char* value) {
+	OLED_ClearBuffer(&oledDevice);
+	OLED_SetCursor(&oledDevice, 0, 3);
+	OLED_PutString(&oledDevice, value);
+	OLED_Update(&oledDevice);
 }
 
