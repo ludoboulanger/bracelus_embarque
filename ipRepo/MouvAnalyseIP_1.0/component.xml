@@ -895,8 +895,8 @@
         <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>MouvAnalyseIP_v1.0</xilinx:displayName>
-      <xilinx:coreRevision>16</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2021-03-22T20:50:52Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>17</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2021-03-25T19:42:37Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@3d047db3_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/MouvAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7fcfc258_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/MouvAnalyseIP_1.0</xilinx:tag>
@@ -1150,6 +1150,11 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@1e2a0fd1_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/MouvAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@3c1633ad_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/MouvAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@52490ce9_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/MouvAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c4e01fe_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/MouvAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18a9f521_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/MouvAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e3b34cf_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/MouvAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e31c6cc_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/MouvAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6834f98a_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/MouvAnalyseIP_1.0</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>

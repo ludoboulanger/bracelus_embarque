@@ -5,10 +5,10 @@
 #		source D:/ZYBO/Work-2020.2/Ateliers/Atelier2-Git/scripts/atelier2_vitisProj.tcl
 
 # nom du projet
-set app_name bracelus
+set app_name bracelus_test
 
 # spécifier le répertoire où placer le projet
-set workspace C:/Users/ludov/Git/bracelus_embarque/work/bracelus_vitis
+set workspace C:/Users/ludov/Git/bracelus_embarque/work/bracelus_vitis_test
 
 # Paths pour les fichiers sources c/c++/h
 set sourcePath C:/Users/ludov/Git/bracelus_embarque/vitisProj/test
@@ -16,7 +16,7 @@ set sourcePath C:/Users/ludov/Git/bracelus_embarque/vitisProj/test
 # Path pour le fichier .xsa
 set xsa_file C:/Users/ludov/Git/bracelus_embarque/work/bracelus_vhdl/Top.xsa
 
-set platform_name  bracelus_plateforme
+set platform_name  bracelus_test_plateforme
 
 # Créer le workspace
 file delete -force $workspace

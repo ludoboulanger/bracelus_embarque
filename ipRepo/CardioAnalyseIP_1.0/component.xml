@@ -844,8 +844,8 @@
         <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>CardioAnalyseIP_v1.0</xilinx:displayName>
-      <xilinx:coreRevision>6</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2021-03-21T15:09:25Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>7</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2021-03-25T19:41:57Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@405c583d_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/CardioAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@47e85000_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/CardioAnalyseIP_1.0</xilinx:tag>
@@ -912,6 +912,11 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@197a2e66_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@4f5f53c2_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@a9cb892_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f97f9a3_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e3b498d_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21e695fa_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3582bd04_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ce80b6e_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
