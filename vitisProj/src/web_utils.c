@@ -39,6 +39,11 @@ int is_cmd_print(char *buf)
 	return (!strncmp(buf, "cmd", 3) && !strncmp(buf + 4, "printxhr", 8));
 }
 
+int is_cmd_oled(char *buf)
+{
+	return !strncmp(buf, "POST /oled/display", 18);
+}
+
 void extract_file_name(char *filename, char *req, int rlen, int maxlen)
 {
 	char *fstart, *fend;

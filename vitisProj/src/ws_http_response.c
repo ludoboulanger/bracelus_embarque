@@ -125,6 +125,29 @@ int do_http_post(int sd, char *req, int rlen)
 		buf[len++] = '0'; /* single byte payload - '0' - to ack */
 		buf[len++] = 0;
 
+	} else if(is_cmd_oled(req)) {
+		xil_printf("Request to change oled received\r\n");
+
+		/* HTTP data starts after "\r\n\r\n" sequence */
+		char *data = strstr(req, "\r\n\r\n") + 4;
+		char newMode;
+		/* calculate number of bytes to be printed */
+		len = rlen - (data - req);
+		for (n = 0; n < len; n++) {
+			if (data[n] == '1' || data[n] == '0') {
+				newMode = data[n];
+			}
+			xil_printf("%c", data[n]);
+		}
+
+		changeOLEDSelector(newMode);
+
+		char response[50];
+		sprintf(response, "{\"oledStatus\": \"%c\"}", newMode);
+		len = generate_http_header(buf, "js", strlen(response));
+		strcpy(buf+len, response);
+		len+= strlen(response);
+
 	} else {
 		xil_printf("http POST: unsupported command\r\n");
 		return -1;
@@ -207,19 +230,15 @@ int do_http_get(int sd, char *req, int rlen)
         }
 
     } else if (s4i_is_analyse_activite_physique(req)) {
-
     	char mouv_buf[50];
     	u16 res = get_mouv_donnee();
     	xil_printf("Result Mouvement: %d\r\n", res);
     	if (res == 2) {
     		sprintf(mouv_buf, "{\"niveau\": \"Zone Intense\"}");
-    		updateOLED(0, "Zone Intense");
     	} else if (res == 1) {
     		sprintf(mouv_buf, "{\"niveau\": \"Zone Basse\"}");
-    		updateOLED(0, "Zone Basse");
     	} else {
     		sprintf(mouv_buf, "{\"niveau\": \"Zone Nulle\"}");
-    		updateOLED(0, "Zone Nulle");
     	}
 
     	unsigned int mouv_len = strlen(mouv_buf);

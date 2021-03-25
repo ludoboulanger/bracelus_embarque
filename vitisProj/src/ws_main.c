@@ -39,6 +39,11 @@
 // Ajout S4i GIF402
 #include "s4i_tools.h"
 
+// Pour interagir avec le PMOD OLED
+#include "oled.h"
+
+
+
 #define THREAD_STACKSIZE        1024
 #define MAIN_THREAD_STACKSIZE   2048
 
@@ -205,11 +210,25 @@ int main_thread()
 	return 0;
 }
 
+void oled_thread() {
+	// initialisation du OLED
+	initOLEDDevice();
+
+	while(1) {
+		updateOLEDDevice();
+	}
+	vTaskDelete( NULL );
+}
+
 int main()
 {
 	sys_thread_new("main_thread", (void(*)(void*))main_thread, 0,
 			MAIN_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
+//	vTaskStartScheduler();
+
+	sys_thread_new("oled_thread", (void(*)(void*))oled_thread, 0, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
 	vTaskStartScheduler();
+
 	while(1);
 	return 0;
 }

@@ -44,10 +44,13 @@ int				get_reminder();
 
 // Autre
 int 			get_o2();
-void 			updateOLED(int selector, char* value);
 
 u16 AD1_GetSampleRaw();
 float AD1_GetSampleVoltage();
+
+void 			initOLEDDevice();
+void 			updateOLEDDevice();
+void 			changeOLEDSelector(char selector);
 
 #endif /* SRC_S4I_TOOLS_H_ */
 
