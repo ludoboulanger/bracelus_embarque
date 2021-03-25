@@ -16,8 +16,10 @@ entity MouvAnalyseIP_v1_0_MouvAnalyseIP is
 	);
 	port (
 		-- Users to add ports here
+		i_bclk : in std_logic;
         i_data_echantillon : in std_logic_vector(11 downto 0);
-        o_data_out0 : out std_logic_vector(31 downto 0);
+        i_adc_strobe : in std_logic;
+        o_data_out0 : out std_logic_vector(1 downto 0);
         o_data_out1 : out std_logic_vector(31 downto 0);
 		-- User ports ends
 		-- Do not modify the ports beyond this line
@@ -87,6 +89,17 @@ end MouvAnalyseIP_v1_0_MouvAnalyseIP;
 
 architecture arch_imp of MouvAnalyseIP_v1_0_MouvAnalyseIP is
 
+    component analyse_zone_mouv is
+        Port (
+        i_bclk    : in   std_logic;   -- bit clock
+        i_reset   : in   std_logic;
+        i_en      : in   std_logic;   -- un echantillon present
+        i_echantillon_pret : in std_logic;
+        i_ech     : in   std_logic_vector (11 downto 0);
+        o_param   : out  std_logic_vector (11 downto 0)                                     
+        );
+    end component;
+
 	-- AXI4LITE signals
 	signal axi_awaddr	: std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
 	signal axi_awready	: std_logic;
@@ -120,8 +133,9 @@ architecture arch_imp of MouvAnalyseIP_v1_0_MouvAnalyseIP is
 	signal byte_index	: integer;
 	signal aw_en	: std_logic;
 	
-    signal s_data_out0 : std_logic_vector(31 downto 0);
-    signal s_data_out1 : std_logic_vector(31 downto 0);
+	signal s_data_out0	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+	signal s_data_out1	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
+    signal s_moyenne : std_logic_vector(11 downto 0);
 
 begin
 	-- I/O Connections assignments
@@ -351,7 +365,7 @@ begin
 	-- and the slave is ready to accept the read address.
 	slv_reg_rden <= axi_arready and S_AXI_ARVALID and (not axi_rvalid) ;
 
-	process (slv_reg0, slv_reg1, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
+	process (s_data_out0, s_data_out1, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
 	variable loc_addr :std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
 	begin
 	    -- Address decoding for reading registers
@@ -392,15 +406,33 @@ begin
 	-- Add user logic here
 	
 	--Signaux s_data_out0 et s_data_out1 sont les signaux contenants les informations d'analyse
+	inst_analyse0: analyse_zone_mouv 
+    port map (
+    i_bclk    => i_bclk,
+    i_reset   => '0',
+    i_en      => '1',
+    i_echantillon_pret => i_adc_strobe,
+    i_ech     => i_data_echantillon,
+    o_param   => s_moyenne                             
+    );
 	
+	process(s_moyenne)
+	begin
+	if(unsigned(s_moyenne) > "110010000") then
+	   s_data_out0(1 downto 0) <= "10";
+	elsif(unsigned(s_moyenne) > "100000") then
+	   s_data_out0(1 downto 0) <= "01";
+    else 
+        s_data_out0(1 downto 0) <= "00";
+    end if;
+	end process;
 	
 	--Assigner les sorties aux signaux s_data_out0 et s_data_out1 
-    o_data_out0 <= s_data_out0;
+    o_data_out0 <= s_data_out0(1 downto 0);
     o_data_out1 <= s_data_out1;
 	
 	--Analyse..... Pour le moment aucune analyse donc regs = echantillon
-	s_data_out0(11 downto 0) <= i_data_echantillon;
-	s_data_out1(11 downto 0) <= i_data_echantillon;
+	s_data_out1(11 downto 0) <= s_moyenne;
 	
 	-- User logic ends
 

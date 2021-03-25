@@ -15,6 +15,7 @@
 #include "sleep.h"
 #include "PmodGPIO.h"
 #include "MouvAnalyseIP.h"
+#include "PmodOLED.h"
 
 
 #define S4I_NUM_SWITCHES	4
@@ -38,7 +39,7 @@ char* 			get_zone_cardiaque();
 int 			get_bpm();
 
 // Capteur de mouvement
-float			get_mouv_donnee();
+u16				get_mouv_donnee();
 int				get_reminder();
 
 // Autre
@@ -46,6 +47,10 @@ int 			get_o2();
 
 u16 AD1_GetSampleRaw();
 float AD1_GetSampleVoltage();
+
+void 			initOLEDDevice();
+void 			updateOLEDDevice();
+void 			changeOLEDSelector(char selector);
 
 #endif /* SRC_S4I_TOOLS_H_ */
 

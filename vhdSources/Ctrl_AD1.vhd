@@ -31,7 +31,8 @@ architecture Behavioral of Ctrl_AD1 is
         clk_ADC                 : in    std_logic; 
         reset                   : in    std_logic; 
         i_ADC_Strobe            : in    std_logic;  --  cadence echantillonnage AD1
-        i_bit                   : in std_logic;
+        i_bit0                  : in std_logic;
+        i_bit1                  : in std_logic;
         i_val_cpt               : in    std_logic_vector(3 downto 0);
         o_ADC_nCS               : out   std_logic;  -- Signal Chip select vers l'ADC  
         o_Decale                : out   std_logic;  -- Signal de décalage
@@ -87,7 +88,8 @@ begin
         reset                   => reset,
         i_ADC_Strobe            => i_ADC_Strobe,
         i_val_cpt               => cpt_val,
-        i_bit => i_DO0,
+        i_bit0                  => i_DO0,
+        i_bit1                  => i_DO1,
         o_ADC_nCS               => ncs,
         o_Decale                => en_decal,
         o_FinSequence_Strobe    => done_strobe,
@@ -120,17 +122,28 @@ begin
         o_dat => out_data_cardio
     );
         
+  
 
-  done_strobe_process : process(done_strobe)
+  done_strobe_process : process(clk_ADC)
   begin
-      if(done_strobe = '1') then 
-          internal_data_mouv <= out_data_mouv;
-          internal_data_cardio <= out_data_cardio;
-      end if;
+       if rising_edge(clk_ADC) then
+          if(done_strobe = '1') then 
+              internal_data_mouv <= out_data_mouv;
+              internal_data_cardio <= out_data_cardio;
+          else
+              internal_data_mouv <= internal_data_mouv;
+              internal_data_cardio <= internal_data_cardio;
+          end if;
+       end if;
   end process;
 
-  o_echantillon_mouv <= internal_data_mouv;
-  o_echantillon_cardio <= internal_data_cardio;
+  o_echantillon_mouv <= out_data_mouv when done_strobe = '1' else
+                        internal_data_mouv;
+  o_echantillon_cardio <= out_data_cardio when done_strobe = '1' else
+                        internal_data_cardio;
+                        
+  -- o_echantillon_mouv <= internal_data_mouv;
+  -- o_echantillon_cardio <= internal_data_cardio;
   o_echantillon_pret_strobe <= done_strobe;
   o_ADC_nCS <= ncs;
 

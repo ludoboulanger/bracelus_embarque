@@ -17,7 +17,8 @@ port(
     clk_ADC                 : in std_logic;
     reset			        : in std_logic;
     i_ADC_Strobe            : in std_logic;     --  cadence echantillonnage AD1
-    i_bit                   : in std_logic;
+    i_bit0                  : in std_logic;
+    i_bit1                  : in std_logic;
     i_val_cpt               : in std_logic_vector(3 downto 0);  
     o_ADC_nCS		        : out std_logic;    -- Signal Chip select vers l'ADC  
     o_Decale			    : out std_logic;    -- Signal de décalage   
@@ -64,7 +65,7 @@ begin
     end process;
     
     
-    process (curr_state, i_ADC_Strobe, i_val_cpt)
+    process (curr_state, i_ADC_Strobe, i_val_cpt, i_bit0, i_bit1)
     begin
         case curr_state is
             when HOLD =>
@@ -74,9 +75,9 @@ begin
                     next_state <= curr_state;
                 end if;
             when SYNC => 
-                if i_val_cpt = "0010"  and i_bit = '0' then ---- A changer pour 0010 en vrai, Ceci est juste pour l
+                if i_val_cpt = "0010" and i_bit0 = '0' and i_bit1 = '0' then ---- A changer pour 0010 en vrai, Ceci est juste pour l
                     next_state <= SAMPLE;
-                elsif i_bit = '1' then
+                elsif i_bit0 = '1' or i_bit1 = '1' then
                     next_state <= HOLD;
                 else
                     next_state <= curr_state;
@@ -130,13 +131,4 @@ begin
     o_FinSequence_Strobe <= internal_o_FinSequence_Strobe;
     o_cpt_rst <= internal_o_cpt_rst;
 
-
----- Calcul des sorties
----- ATTENTION: Les valeurs des sorties ci-dessous sont temporaires. Connectez-les aux bonnes valeurs selon votre MEF.
---o_ADC_nCS <=	'1';				
---o_Decale	<=	'0';
---o_FinSequence_Strobe <=	'0';
-
-
- 
 end Behavioral;

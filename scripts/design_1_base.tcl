@@ -127,7 +127,6 @@ if { $bCheckIPs == 1 } {
 xilinx.com:user:CardioAnalyseIP:1.0\
 xilinx.com:user:MouvAnalyseIP:1.0\
 digilentinc.com:IP:PmodGPIO:1.0\
-digilentinc.com:IP:PmodOLED:1.0\
 xilinx.com:ip:axi_gpio:2.0\
 xilinx.com:ip:processing_system7:5.5\
 xilinx.com:ip:proc_sys_reset:5.0\
@@ -200,8 +199,6 @@ proc create_root_design { parentCell } {
 
   set Pmod_8LD [ create_bd_intf_port -mode Master -vlnv digilentinc.com:interface:pmod_rtl:1.0 Pmod_8LD ]
 
-  set Pmod_OLED [ create_bd_intf_port -mode Master -vlnv digilentinc.com:interface:pmod_rtl:1.0 Pmod_OLED ]
-
   set i_sw [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 i_sw ]
 
   set o_leds [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 o_leds ]
@@ -209,7 +206,6 @@ proc create_root_design { parentCell } {
 
   # Create ports
   set i_adc_strobe [ create_bd_port -dir I i_adc_strobe ]
-  set i_bclk_0 [ create_bd_port -dir I i_bclk_0 ]
   set i_data_cardio [ create_bd_port -dir I -from 11 -to 0 i_data_cardio ]
   set i_data_mouvement [ create_bd_port -dir I -from 11 -to 0 i_data_mouvement ]
   set o_cardio_analyse [ create_bd_port -dir O -from 31 -to 0 o_cardio_analyse ]
@@ -224,9 +220,6 @@ proc create_root_design { parentCell } {
 
   # Create instance: PmodGPIO_0, and set properties
   set PmodGPIO_0 [ create_bd_cell -type ip -vlnv digilentinc.com:IP:PmodGPIO:1.0 PmodGPIO_0 ]
-
-  # Create instance: PmodOLED_0, and set properties
-  set PmodOLED_0 [ create_bd_cell -type ip -vlnv digilentinc.com:IP:PmodOLED:1.0 PmodOLED_0 ]
 
   # Create instance: axi_gpio_0, and set properties
   set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0 ]
@@ -725,7 +718,7 @@ proc create_root_design { parentCell } {
   # Create instance: ps7_0_axi_periph, and set properties
   set ps7_0_axi_periph [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 ps7_0_axi_periph ]
   set_property -dict [ list \
-   CONFIG.NUM_MI {7} \
+   CONFIG.NUM_MI {6} \
  ] $ps7_0_axi_periph
 
   # Create instance: rst_ps7_0_50M, and set properties
@@ -733,7 +726,6 @@ proc create_root_design { parentCell } {
 
   # Create interface connections
   connect_bd_intf_net -intf_net PmodGPIO_0_Pmod_out [get_bd_intf_ports Pmod_8LD] [get_bd_intf_pins PmodGPIO_0/Pmod_out]
-  connect_bd_intf_net -intf_net PmodOLED_0_Pmod_out [get_bd_intf_ports Pmod_OLED] [get_bd_intf_pins PmodOLED_0/Pmod_out]
   connect_bd_intf_net -intf_net axi_gpio_0_GPIO [get_bd_intf_ports i_sw] [get_bd_intf_pins axi_gpio_0/GPIO]
   connect_bd_intf_net -intf_net axi_gpio_1_GPIO [get_bd_intf_ports o_leds] [get_bd_intf_pins axi_gpio_1/GPIO]
   connect_bd_intf_net -intf_net processing_system7_0_DDR [get_bd_intf_ports DDR] [get_bd_intf_pins processing_system7_0/DDR]
@@ -744,27 +736,22 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net ps7_0_axi_periph_M02_AXI [get_bd_intf_pins PmodGPIO_0/AXI_LITE_GPIO] [get_bd_intf_pins ps7_0_axi_periph/M02_AXI]
   connect_bd_intf_net -intf_net ps7_0_axi_periph_M03_AXI [get_bd_intf_pins axi_gpio_0/S_AXI] [get_bd_intf_pins ps7_0_axi_periph/M03_AXI]
   connect_bd_intf_net -intf_net ps7_0_axi_periph_M04_AXI [get_bd_intf_pins axi_gpio_1/S_AXI] [get_bd_intf_pins ps7_0_axi_periph/M04_AXI]
-  connect_bd_intf_net -intf_net ps7_0_axi_periph_M05_AXI [get_bd_intf_pins PmodOLED_0/AXI_LITE_GPIO] [get_bd_intf_pins ps7_0_axi_periph/M05_AXI]
-  connect_bd_intf_net -intf_net ps7_0_axi_periph_M06_AXI [get_bd_intf_pins PmodOLED_0/AXI_LITE_SPI] [get_bd_intf_pins ps7_0_axi_periph/M06_AXI]
 
   # Create port connections
   connect_bd_net -net CardioAnalyseIP_0_o_data_out [get_bd_ports o_cardio_analyse] [get_bd_pins CardioAnalyseIP_0/o_data_out]
   connect_bd_net -net MouvAnalyseIP_0_o_data_out0 [get_bd_ports o_mouv_analyse0] [get_bd_pins MouvAnalyseIP_0/o_data_out0]
   connect_bd_net -net MouvAnalyseIP_0_o_data_out1 [get_bd_ports o_mouv_analyse1] [get_bd_pins MouvAnalyseIP_0/o_data_out1]
   connect_bd_net -net i_adc_strobe_0_1 [get_bd_ports i_adc_strobe] [get_bd_pins MouvAnalyseIP_0/i_adc_strobe]
-  connect_bd_net -net i_bclk_0_1 [get_bd_ports i_bclk_0] [get_bd_pins MouvAnalyseIP_0/i_bclk]
   connect_bd_net -net i_data_echantillon_0_1 [get_bd_ports i_data_mouvement] [get_bd_pins MouvAnalyseIP_0/i_data_echantillon]
   connect_bd_net -net i_data_echantillon_0_2 [get_bd_ports i_data_cardio] [get_bd_pins CardioAnalyseIP_0/i_data_echantillon]
-  connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins CardioAnalyseIP_0/s00_axi_aclk] [get_bd_pins MouvAnalyseIP_0/mouvanalyseip_aclk] [get_bd_pins PmodGPIO_0/s_axi_aclk] [get_bd_pins PmodOLED_0/s_axi_aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins ps7_0_axi_periph/M01_ACLK] [get_bd_pins ps7_0_axi_periph/M02_ACLK] [get_bd_pins ps7_0_axi_periph/M03_ACLK] [get_bd_pins ps7_0_axi_periph/M04_ACLK] [get_bd_pins ps7_0_axi_periph/M05_ACLK] [get_bd_pins ps7_0_axi_periph/M06_ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins rst_ps7_0_50M/slowest_sync_clk]
+  connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins CardioAnalyseIP_0/s00_axi_aclk] [get_bd_pins MouvAnalyseIP_0/mouvanalyseip_aclk] [get_bd_pins PmodGPIO_0/s_axi_aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins ps7_0_axi_periph/M01_ACLK] [get_bd_pins ps7_0_axi_periph/M02_ACLK] [get_bd_pins ps7_0_axi_periph/M03_ACLK] [get_bd_pins ps7_0_axi_periph/M04_ACLK] [get_bd_pins ps7_0_axi_periph/M05_ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins rst_ps7_0_50M/slowest_sync_clk]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins rst_ps7_0_50M/ext_reset_in]
-  connect_bd_net -net rst_ps7_0_50M_peripheral_aresetn [get_bd_pins CardioAnalyseIP_0/s00_axi_aresetn] [get_bd_pins MouvAnalyseIP_0/mouvanalyseip_aresetn] [get_bd_pins PmodGPIO_0/s_axi_aresetn] [get_bd_pins PmodOLED_0/s_axi_aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins axi_gpio_1/s_axi_aresetn] [get_bd_pins ps7_0_axi_periph/ARESETN] [get_bd_pins ps7_0_axi_periph/M00_ARESETN] [get_bd_pins ps7_0_axi_periph/M01_ARESETN] [get_bd_pins ps7_0_axi_periph/M02_ARESETN] [get_bd_pins ps7_0_axi_periph/M03_ARESETN] [get_bd_pins ps7_0_axi_periph/M04_ARESETN] [get_bd_pins ps7_0_axi_periph/M05_ARESETN] [get_bd_pins ps7_0_axi_periph/M06_ARESETN] [get_bd_pins ps7_0_axi_periph/S00_ARESETN] [get_bd_pins rst_ps7_0_50M/peripheral_aresetn]
+  connect_bd_net -net rst_ps7_0_50M_peripheral_aresetn [get_bd_pins CardioAnalyseIP_0/s00_axi_aresetn] [get_bd_pins MouvAnalyseIP_0/mouvanalyseip_aresetn] [get_bd_pins PmodGPIO_0/s_axi_aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins axi_gpio_1/s_axi_aresetn] [get_bd_pins ps7_0_axi_periph/ARESETN] [get_bd_pins ps7_0_axi_periph/M00_ARESETN] [get_bd_pins ps7_0_axi_periph/M01_ARESETN] [get_bd_pins ps7_0_axi_periph/M02_ARESETN] [get_bd_pins ps7_0_axi_periph/M03_ARESETN] [get_bd_pins ps7_0_axi_periph/M04_ARESETN] [get_bd_pins ps7_0_axi_periph/M05_ARESETN] [get_bd_pins ps7_0_axi_periph/S00_ARESETN] [get_bd_pins rst_ps7_0_50M/peripheral_aresetn]
 
   # Create address segments
   assign_bd_address -offset 0x43C10000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs CardioAnalyseIP_0/S00_AXI/S00_AXI_reg] -force
   assign_bd_address -offset 0x43C00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs MouvAnalyseIP_0/MouvAnalyseIP/MouvAnalyseIP_reg] -force
   assign_bd_address -offset 0x40001000 -range 0x00001000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs PmodGPIO_0/AXI_LITE_GPIO/Reg0] -force
-  assign_bd_address -offset 0x40000000 -range 0x00001000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs PmodOLED_0/AXI_LITE_GPIO/Reg0] -force
-  assign_bd_address -offset 0x40010000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs PmodOLED_0/AXI_LITE_SPI/Reg0] -force
   assign_bd_address -offset 0x41200000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs axi_gpio_0/S_AXI/Reg] -force
   assign_bd_address -offset 0x41210000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs axi_gpio_1/S_AXI/Reg] -force
 

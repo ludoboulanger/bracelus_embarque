@@ -7,6 +7,7 @@
 
 #include "s4i_tools.h"
 #include "xparameters.h"
+#include "oled.h"
 
 #include <xgpio.h>
 #include <stdlib.h>
@@ -18,6 +19,8 @@ XGpio s4i_xgpio_input_sws;
 
 const float ReferenceVoltage = 3.3;
 
+PmodOLED oledDevice;
+char oledSelector = '1';
 void s4i_init_hw()
 {
     // Initialise l'accï¿½s au matÅ½riel GPIO pour s4i_get_sws_state().
@@ -79,13 +82,13 @@ unsigned int s4i_get_sws_state()
     return XGpio_DiscreteRead(&s4i_xgpio_input_sws, 1);
 }
 
-float get_mouv_donnee() {
+u16 get_mouv_donnee() {
 
 	// Pour l'instant on génère un nombre et on choisi le niveau d'activité selon ce dernier
 	// int niv_act = rand() % 3;
 
-	float tension_mouvement = AD1_GetSampleVoltage();
-	return tension_mouvement;
+	u16 resultat_mouvement = AD1_GetSampleRaw();
+	return resultat_mouvement;
 
 }
 
@@ -123,7 +126,6 @@ int get_o2()
 u16 AD1_GetSampleRaw()
 {
 	u16 rawData =  MOUVANALYSEIP_mReadReg(MY_AD1_IP_BASEADDRESS, 0x0) & 0xFFF;
-	xil_printf("Voltage : 0x%x\n\r", rawData);
 	return rawData;
 }
 
@@ -135,5 +137,29 @@ float AD1_GetSampleVoltage()
 	u16 rawSample = AD1_GetSampleRaw();
 
 	return (float)rawSample * conversionFactor;
+}
+
+void initOLEDDevice() {
+	initOLED(&oledDevice);
+}
+
+void updateOLEDDevice() {
+	u16 res = get_mouv_donnee();
+	if (oledSelector == '1') {
+		if (res == 2) {
+			updateOLED(&oledDevice, "Zone Intense");
+		} else if (res == 1) {
+			updateOLED(&oledDevice ,"Zone Basse");
+		} else {
+			updateOLED(&oledDevice, "Zone Nulle");
+		}
+	} else {
+		updateOLED(&oledDevice ,"Cardiaque");
+	}
+
+}
+
+void changeOLEDSelector(char selector) {
+	oledSelector = selector;
 }
 

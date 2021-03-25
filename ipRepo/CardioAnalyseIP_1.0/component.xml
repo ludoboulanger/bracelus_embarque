@@ -199,7 +199,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>POLARITY</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.S00_AXI_RST.POLARITY" spirit:choiceRef="choice_list_74b5137e">ACTIVE_LOW</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S00_AXI_RST.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
         </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
@@ -266,7 +266,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c6b09935</spirit:value>
+            <spirit:value>c7e695fe</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -282,7 +282,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c6b09935</spirit:value>
+            <spirit:value>c7e695fe</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -296,7 +296,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ebbe3726</spirit:value>
+            <spirit:value>d61f92f1</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -695,7 +695,7 @@
       <spirit:enumeration>32</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
-      <spirit:name>choice_list_74b5137e</spirit:name>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
       <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
       <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
     </spirit:choice>
@@ -844,8 +844,8 @@
         <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>CardioAnalyseIP_v1.0</xilinx:displayName>
-      <xilinx:coreRevision>2</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2021-03-12T19:45:41Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>6</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2021-03-21T15:09:25Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@405c583d_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/CardioAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@47e85000_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/CardioAnalyseIP_1.0</xilinx:tag>
@@ -869,14 +869,57 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@37f979df_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/CardioAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@264129b7_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/CardioAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@679f31e5_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2a99e41a_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f0cba75_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f663c70_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16c93275_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d44d005_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@747491a3_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54a0e56a_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52656006_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@252f8a3a_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ddecf29_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a63515d_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d0ac258_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69ba14fa_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@539bf792_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7944473e_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e711d31_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3914b36a_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5871d897_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36615756_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38602438_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2245b8ad_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19cb84bf_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d095160_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@635e6aba_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@57d5a2b1_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e52ad02_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15c286e7_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@47fd06e3_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63494a19_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64a4100d_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@386fc070_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@898697f_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@db326bd_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b04c399_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b95a103_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e6f764_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e90caea_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33d9307_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26507616_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@61130665_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@197a2e66_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f5f53c2_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a9cb892_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="7a6aebf4"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="7a63f3fc"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="ed1368d5"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="3bab0fc2"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="cbad7a16"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="863724d2"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="5cefdc2a"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="6992ea72"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="9fa85a92"/>
     </xilinx:packagingInfo>

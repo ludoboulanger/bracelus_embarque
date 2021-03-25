@@ -119,9 +119,7 @@ architecture arch_imp of CardioAnalyseIP_v1_0_S00_AXI is
 	signal byte_index	: integer;
 	signal aw_en	: std_logic;
 	
-	
-	--Signaux d'analyse
-    signal s_data_out : std_logic_vector(31 downto 0);
+	signal s_data_out	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0) := (others => '0');
 
 begin
 	-- I/O Connections assignments
@@ -351,7 +349,7 @@ begin
 	-- and the slave is ready to accept the read address.
 	slv_reg_rden <= axi_arready and S_AXI_ARVALID and (not axi_rvalid) ;
 
-	process (slv_reg0, slv_reg1, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
+	process (s_data_out, slv_reg1, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
 	variable loc_addr :std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
 	begin
 	    -- Address decoding for reading registers

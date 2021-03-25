@@ -64,43 +64,53 @@ architecture Behavioral of Top is
     
     component design_1_wrapper is
     port (
-    DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
-    DDR_ba : inout STD_LOGIC_VECTOR ( 2 downto 0 );
-    DDR_cas_n : inout STD_LOGIC;
-    DDR_ck_n : inout STD_LOGIC;
-    DDR_ck_p : inout STD_LOGIC;
-    DDR_cke : inout STD_LOGIC;
-    DDR_cs_n : inout STD_LOGIC;
-    DDR_dm : inout STD_LOGIC_VECTOR ( 3 downto 0 );
-    DDR_dq : inout STD_LOGIC_VECTOR ( 31 downto 0 );
-    DDR_dqs_n : inout STD_LOGIC_VECTOR ( 3 downto 0 );
-    DDR_dqs_p : inout STD_LOGIC_VECTOR ( 3 downto 0 );
-    DDR_odt : inout STD_LOGIC;
-    DDR_ras_n : inout STD_LOGIC;
-    DDR_reset_n : inout STD_LOGIC;
-    DDR_we_n : inout STD_LOGIC;
-    FIXED_IO_ddr_vrn : inout STD_LOGIC;
-    FIXED_IO_ddr_vrp : inout STD_LOGIC;
-    FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
-    FIXED_IO_ps_clk : inout STD_LOGIC;
-    FIXED_IO_ps_porb : inout STD_LOGIC;
-    FIXED_IO_ps_srstb : inout STD_LOGIC;
-    Pmod_8LD_pin10_io : inout STD_LOGIC;
-    Pmod_8LD_pin1_io : inout STD_LOGIC;
-    Pmod_8LD_pin2_io : inout STD_LOGIC;
-    Pmod_8LD_pin3_io : inout STD_LOGIC;
-    Pmod_8LD_pin4_io : inout STD_LOGIC;
-    Pmod_8LD_pin7_io : inout STD_LOGIC;
-    Pmod_8LD_pin8_io : inout STD_LOGIC;
-    Pmod_8LD_pin9_io : inout STD_LOGIC;
-    i_data_cardio : in STD_LOGIC_VECTOR ( 11 downto 0 );
-    i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
-    i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
-    o_cardio_analyse : out STD_LOGIC_VECTOR ( 31 downto 0 );
-    o_leds_tri_o : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    o_mouv_analyse0 : out STD_LOGIC_VECTOR ( 31 downto 0 );
-    o_mouv_analyse1 : out STD_LOGIC_VECTOR ( 31 downto 0 )
-    );
+        DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
+        DDR_ba : inout STD_LOGIC_VECTOR ( 2 downto 0 );
+        DDR_cas_n : inout STD_LOGIC;
+        DDR_ck_n : inout STD_LOGIC;
+        DDR_ck_p : inout STD_LOGIC;
+        DDR_cke : inout STD_LOGIC;
+        DDR_cs_n : inout STD_LOGIC;
+        DDR_dm : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+        DDR_dq : inout STD_LOGIC_VECTOR ( 31 downto 0 );
+        DDR_dqs_n : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+        DDR_dqs_p : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+        DDR_odt : inout STD_LOGIC;
+        DDR_ras_n : inout STD_LOGIC;
+        DDR_reset_n : inout STD_LOGIC;
+        DDR_we_n : inout STD_LOGIC;
+        FIXED_IO_ddr_vrn : inout STD_LOGIC;
+        FIXED_IO_ddr_vrp : inout STD_LOGIC;
+        FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
+        FIXED_IO_ps_clk : inout STD_LOGIC;
+        FIXED_IO_ps_porb : inout STD_LOGIC;
+        FIXED_IO_ps_srstb : inout STD_LOGIC;
+        Pmod_8LD_pin10_io : inout STD_LOGIC;
+        Pmod_8LD_pin1_io : inout STD_LOGIC;
+        Pmod_8LD_pin2_io : inout STD_LOGIC;
+        Pmod_8LD_pin3_io : inout STD_LOGIC;
+        Pmod_8LD_pin4_io : inout STD_LOGIC;
+        Pmod_8LD_pin7_io : inout STD_LOGIC;
+        Pmod_8LD_pin8_io : inout STD_LOGIC;
+        Pmod_8LD_pin9_io : inout STD_LOGIC;
+        Pmod_OLED_pin10_io : inout STD_LOGIC;
+        Pmod_OLED_pin1_io : inout STD_LOGIC;
+        Pmod_OLED_pin2_io : inout STD_LOGIC;
+        Pmod_OLED_pin3_io : inout STD_LOGIC;
+        Pmod_OLED_pin4_io : inout STD_LOGIC;
+        Pmod_OLED_pin7_io : inout STD_LOGIC;
+        Pmod_OLED_pin8_io : inout STD_LOGIC;
+        Pmod_OLED_pin9_io : inout STD_LOGIC;
+        i_adc_strobe : in STD_LOGIC;
+        i_bclk_0 : in STD_LOGIC;
+        i_data_cardio : in STD_LOGIC_VECTOR ( 11 downto 0 );
+        i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
+        i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
+        o_cardio_analyse : out STD_LOGIC_VECTOR ( 31 downto 0 );
+        o_leds_tri_o : out STD_LOGIC_VECTOR ( 3 downto 0 );
+        o_mouv_analyse0 : out STD_LOGIC_VECTOR ( 1 downto 0 );
+        o_mouv_analyse1 : out STD_LOGIC_VECTOR ( 31 downto 0 )
+  );
     end component;
 
     component Ctrl_AD1 is
@@ -124,6 +134,7 @@ architecture Behavioral of Top is
             clk_DAC : in std_logic;
             i_reset : in std_logic;
             i_strobe_collecte : in std_logic;
+            i_signal_select : in std_logic_vector(2 downto 0);
             ----
             o_DAC_tsync : out std_logic;
             o_DAC_data0 : out std_logic;
@@ -171,13 +182,7 @@ architecture Behavioral of Top is
      
      --ADC
      signal adc_strobe : std_logic := '0';
-     signal rentre_donnee : std_logic := '0';
-     signal i_dat_ADC : std_logic;
-     signal index_data : unsigned(7 downto 0) := (others => '0');
      signal ADC_ncs : std_logic := '1';
-
-     signal ech_pret_strobe : std_logic;
-     signal o_ech : std_logic_vector(11 downto 0);
      
      signal q_adc_lire : std_logic := '0';
      signal q_prec_adc_lire : std_logic := '0';
@@ -204,16 +209,18 @@ begin
         o_val_cpt => cpt_val
     );
     
-    process (clk_5MHz, strobe_1_Hz, cpt_val) -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
-   begin
-        if cpt_val = "1001011000" then -- 1001011000
-            cpt_en <= '0';
-            cpt_reset <= '1';
-            q_adc_lire <= '1';
-        elsif strobe_1_Hz = '1' then  -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
-            cpt_reset <= '0';
-            cpt_en <= '1';
-            q_adc_lire <= '0';
+    process (clk_5MHz, d_strobe_100Hz, cpt_val) -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
+    begin
+        if rising_edge(clk_5MHz) then
+            if cpt_val = "1001011000" then -- 1001011000
+                cpt_en <= '0';
+                cpt_reset <= '1';
+                q_adc_lire <= '1';
+            elsif d_strobe_100Hz = '1' then  -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
+                cpt_reset <= '0';
+                cpt_en <= '1';
+                q_adc_lire <= '0';
+            end if;
         end if;
    end process;
             
@@ -249,7 +256,8 @@ begin
     port map (
         clk_DAC                     => clk_5MHz,
         i_reset                     => reset,
-        i_strobe_collecte           => strobe_1_Hz, -- Oubli pas de rechanger pour 1Hz
+        i_strobe_collecte           => d_strobe_100Hz, -- Oubli pas de rechanger pour 1Hz
+        i_signal_select             => i_sw(2 downto 0),
         o_DAC_tsync                 => o_DAC_NCS,
         o_DAC_data0                  => o_DAC_D0, -- out_DAC_bit
         o_DAC_data1                  => o_DAC_D1 -- out_DAC_bit
@@ -299,14 +307,16 @@ begin
         Pmod_8LD_pin8_io => Pmod_8LD(5),
         Pmod_8LD_pin9_io => Pmod_8LD(6),
         Pmod_8LD_pin10_io  => Pmod_8LD(7),
---        Pmod_OLED_pin1_io => Pmod_OLED(0),
---        Pmod_OLED_pin2_io => Pmod_OLED(1),
---        Pmod_OLED_pin3_io => Pmod_OLED(2),
---        Pmod_OLED_pin4_io => Pmod_OLED(3),
---        Pmod_OLED_pin7_io => Pmod_OLED(4),
---        Pmod_OLED_pin8_io => Pmod_OLED(5),
---        Pmod_OLED_pin9_io => Pmod_OLED(6),
---        Pmod_OLED_pin10_io => Pmod_OLED(7),
+        Pmod_OLED_pin1_io => Pmod_OLED(0),
+        Pmod_OLED_pin2_io => Pmod_OLED(1),
+        Pmod_OLED_pin3_io => Pmod_OLED(2),
+        Pmod_OLED_pin4_io => Pmod_OLED(3),
+        Pmod_OLED_pin7_io => Pmod_OLED(4),
+        Pmod_OLED_pin8_io => Pmod_OLED(5),
+        Pmod_OLED_pin9_io => Pmod_OLED(6),
+        Pmod_OLED_pin10_io => Pmod_OLED(7),
+        i_bclk_0 => clk_5MHz,
+        i_adc_strobe=> adc_strobe,
         i_data_mouvement=> d_echantillon_mouv,
         i_data_cardio   => d_echantillon_cardio,
         i_sw_tri_i=> i_sw,
