@@ -17,6 +17,7 @@ entity MouvAnalyseIP_v1_0_MouvAnalyseIP is
 	port (
 		-- Users to add ports here
 		i_bclk : in std_logic;
+		i_clk1Hz : in std_logic;
         i_data_echantillon : in std_logic_vector(11 downto 0);
         i_adc_strobe : in std_logic;
         o_data_out0 : out std_logic_vector(1 downto 0);
@@ -99,6 +100,12 @@ architecture arch_imp of MouvAnalyseIP_v1_0_MouvAnalyseIP is
         o_param   : out  std_logic_vector (11 downto 0)                                     
         );
     end component;
+    
+    component analyse_rappel_bouger is
+    Port ( i_moyenne : in STD_LOGIC_VECTOR (1 downto 0);
+           i_clk1Hz : in STD_LOGIC;
+           o_rappel : out STD_LOGIC_VECTOR (7 downto 0));
+    end component;
 
 	-- AXI4LITE signals
 	signal axi_awaddr	: std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
@@ -136,6 +143,7 @@ architecture arch_imp of MouvAnalyseIP_v1_0_MouvAnalyseIP is
 	signal s_data_out0	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
 	signal s_data_out1	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
     signal s_moyenne : std_logic_vector(11 downto 0);
+    signal s_rappel  : std_logic_vector(7 downto 0);
 
 begin
 	-- I/O Connections assignments
@@ -415,6 +423,13 @@ begin
     i_ech     => i_data_echantillon,
     o_param   => s_moyenne                             
     );
+    
+    inst_analyse1 : analyse_rappel_bouger
+    port map (
+        i_clk1Hz => i_clk1Hz,
+        i_moyenne => s_data_out0(1 downto 0),
+        o_rappel  => s_rappel
+    );
 	
 	process(s_moyenne)
 	begin
@@ -432,7 +447,7 @@ begin
     o_data_out1 <= s_data_out1;
 	
 	--Analyse..... Pour le moment aucune analyse donc regs = echantillon
-	s_data_out1(11 downto 0) <= s_moyenne;
+	s_data_out1(7 downto 0) <= s_rappel;
 	
 	-- User logic ends
 

@@ -102,7 +102,8 @@ architecture Behavioral of Top is
         Pmod_OLED_pin8_io : inout STD_LOGIC;
         Pmod_OLED_pin9_io : inout STD_LOGIC;
         i_adc_strobe : in STD_LOGIC;
-        i_bclk_0 : in STD_LOGIC;
+        i_bclk : in STD_LOGIC;
+        i_clk1Hz : in STD_LOGIC;
         i_data_cardio : in STD_LOGIC_VECTOR ( 11 downto 0 );
         i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
         i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -148,6 +149,7 @@ architecture Behavioral of Top is
         clkm        : in  std_logic;  -- Entrée  horloge maitre   (50 MHz soit 20 ns ou 100 MHz soit 10 ns)
         o_S_5MHz    : out std_logic;  -- source horloge divisee          (clkm MHz / (2*constante_diviseur_p +2) devrait donner 5 MHz soit 200 ns)
         o_CLK_5MHz  : out std_logic;
+        o_CLK_1Hz   : out std_logic;
         o_S_100Hz   : out  std_logic; -- source horloge 100 Hz : out  std_logic;   -- (100  Hz approx:  99,952 Hz) 
         o_stb_100Hz : out  std_logic; -- strobe 100Hz synchro sur clk_5MHz
         o_stb_1Hz   : out std_logic;
@@ -165,6 +167,7 @@ architecture Behavioral of Top is
     end component;  
     
     signal clk_5MHz                     : std_logic;
+     signal clk_1Hz                     : std_logic;
     signal d_S_5MHz                     : std_logic;
     signal d_strobe_100Hz               : std_logic := '0';  -- cadence echantillonnage AD1
     
@@ -269,6 +272,7 @@ begin
            clkm         =>  sys_clock,
            o_S_5MHz     =>  source_clk_5MHz,
            o_CLK_5MHz   => clk_5MHz,
+           o_CLK_1Hz    => clk_1Hz,
            o_S_100Hz    => open,
            o_stb_100Hz  => d_strobe_100Hz,  -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
            o_stb_1Hz    => strobe_1_Hz,
@@ -315,7 +319,8 @@ begin
         Pmod_OLED_pin8_io => Pmod_OLED(5),
         Pmod_OLED_pin9_io => Pmod_OLED(6),
         Pmod_OLED_pin10_io => Pmod_OLED(7),
-        i_bclk_0 => clk_5MHz,
+        i_bclk => clk_5MHz,
+        i_clk1Hz => clk_1Hz,
         i_adc_strobe=> adc_strobe,
         i_data_mouvement=> d_echantillon_mouv,
         i_data_cardio   => d_echantillon_cardio,

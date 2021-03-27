@@ -31,6 +31,7 @@ generic (const_CLK_syst_MHz: integer := 100);
            clkm         : in STD_LOGIC;      -- Entrée  horloge maitre   (50 MHz soit 20 ns ou 100 MHz soit 10 ns)
            o_S_5MHz     : out  STD_LOGIC;    -- source horloge divisee   (clkm MHz / (2*constante_diviseur_p +2) devrait donner 5 MHz soit 200 ns)
            o_clk_5MHz   : out  STD_LOGIC;    -- horlgoe via bufg
+           o_clk_1Hz    : out  STD_LOGIC;    -- horlgoe via bufg
            o_S_100Hz    : out  STD_LOGIC;    -- source horloge 100 Hz : out  STD_LOGIC;   -- (100  Hz approx:  99,952 Hz) 
            o_stb_100Hz  : out  STD_LOGIC;    -- strobe durée 1/clk_5mHz aligne sur front 100Hz
            o_stb_1Hz    : out STD_LOGIC;
@@ -54,6 +55,7 @@ signal ValueCounter100Hz    : std_logic_vector(15 downto 0)  := "000000000000000
 signal ValueCounter1Hz      : std_logic_vector(7 downto 0)   := "00000000";
 
  signal clk_5MHzInt         : std_logic := '0';
+ signal clk_1HzInt          : std_logic := '0';
  
  signal q_s5MHzInt          : std_logic := '0';
  signal q_s1HzInt           : std_logic := '0';
@@ -72,6 +74,11 @@ port map(
 	O	=> clk_5MHzInt
 	);
 
+ClockBuffer1Hz: bufg
+port map(
+	I	=> q_s1HzInt,
+	O	=> clk_1HzInt
+	);
 
 o_clk_5MHz <= clk_5MHzInt;
 o_S_5MHz   <= q_s5MHzInt;
@@ -79,6 +86,7 @@ o_S_100Hz  <= q_s100HzInt;
 o_S_1Hz    <= q_s1HzInt;
 o_stb_100Hz <=  q_strobe100HzInt;
 o_stb_1Hz   <= q_strobe1HzInt;
+o_clk_1Hz <= clk_1HzInt;
 
 DiviseurHorloge: process(clkm)
 begin
