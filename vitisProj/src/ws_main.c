@@ -213,9 +213,11 @@ int main_thread()
 void oled_thread() {
 	// initialisation du OLED
 	initOLEDDevice();
+	init8LDDevice();
 
 	while(1) {
 		updateOLEDDevice();
+		update8LDDevice();
 	}
 	vTaskDelete( NULL );
 }

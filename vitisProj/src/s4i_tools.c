@@ -12,20 +12,27 @@
 #include <xgpio.h>
 #include <stdlib.h>
 
-#define MY_AD1_IP_BASEADDRESS  XPAR_MOUVANALYSEIP_0_MOUVANALYSEIP_BASEADDR
-#define AD1_NUM_BITS 	12
+#define MY_MOUV_ANALYSE_IP_BASEADDRESS  XPAR_MOUVANALYSEIP_0_MOUVANALYSEIP_BASEADDR
+#define MY_MOUV_CARDIO_IP_BASEADDRESS   XPAR_CARDIOANALYSEIP_0_S00_AXI_BASEADDR
+#define MOUV_ANALYSE_NUM_BITS 	12
+
+#define ZONE_MOUV 0
+#define RAPPEL_BOUGER 1
+#define MOYENNE_CARDIAQUE 2
 
 XGpio s4i_xgpio_input_sws;
 
 const float ReferenceVoltage = 3.3;
 
 PmodOLED oledDevice;
+PmodGPIO pmod8LD;
 char oledSelector = '1';
 void s4i_init_hw()
 {
     // Initialise l'accï¿½s au matÅ½riel GPIO pour s4i_get_sws_state().
 	XGpio_Initialize(&s4i_xgpio_input_sws, XPAR_AXI_GPIO_0_DEVICE_ID);
 	XGpio_SetDataDirection(&s4i_xgpio_input_sws, 1, 0xF);
+
 }
 
 int s4i_is_cmd_sws(char *buf)
@@ -87,7 +94,7 @@ u16 get_mouv_donnee() {
 	// Pour l'instant on génère un nombre et on choisi le niveau d'activité selon ce dernier
 	// int niv_act = rand() % 3;
 
-	u16 resultat_mouvement = AD1_GetSampleRaw();
+	u16 resultat_mouvement = read_analyse_mouv_ip0();
 	return resultat_mouvement;
 
 }
@@ -123,20 +130,58 @@ int get_o2()
 	return rand() % 5 + 95;
 }
 
-u16 AD1_GetSampleRaw()
+u16 read_analyse_mouv_ip0()
 {
-	u16 rawData =  MOUVANALYSEIP_mReadReg(MY_AD1_IP_BASEADDRESS, 0x0) & 0xFFF;
+	u16 rawData =  MOUVANALYSEIP_mReadReg(MY_MOUV_ANALYSE_IP_BASEADDRESS, MOUVANALYSEIP_MouvAnalyseIP_SLV_REG0_OFFSET) & 0xFFF;
+	return rawData;
+}
+
+u16 read_analyse_mouv_ip1()
+{
+	u16 rawData =  MOUVANALYSEIP_mReadReg(MY_MOUV_ANALYSE_IP_BASEADDRESS, MOUVANALYSEIP_MouvAnalyseIP_SLV_REG1_OFFSET) & 0xFFF;
+	xil_printf("0x%x \n\r",rawData);
+	return rawData;
+}
+
+u16 read_analyse_cardio0()
+{
+	u16 rawData =  CARDIOANALYSEIP_mReadReg(MY_MOUV_CARDIO_IP_BASEADDRESS, 0x0) & 0xFFF;
 	return rawData;
 }
 
 
-float AD1_GetSampleVoltage()
+float get_sample_voltage_ADC(int analyse)
 {
-	float conversionFactor = ReferenceVoltage / ((1 << AD1_NUM_BITS) - 1);
+	u16 rawSample = 0;
+	float conversionFactor = ReferenceVoltage / ((1 << MOUV_ANALYSE_NUM_BITS) - 1);
 
-	u16 rawSample = AD1_GetSampleRaw();
+	if (analyse == 0) {
+		rawSample = read_analyse_mouv_ip0();
+	} else if (analyse == 1) {
+		rawSample = read_analyse_mouv_ip1();
+	} else {
+		rawSample = read_analyse_cardio0();
+	}
+
 
 	return (float)rawSample * conversionFactor;
+}
+
+void update8LDDevice() {
+	//xil_printf("Helloooo\r\n");
+	u8 pmod8LDvalue = 0;
+	float data = get_sample_voltage_ADC(RAPPEL_BOUGER);
+//	pmod8LDvalue = 0xFF << (8 - (u8)(data / 3.3 * 8));
+	if (data == 0) {
+		pmod8LDvalue = 0;
+	} else {
+		pmod8LDvalue = 255;
+	}
+	GPIO_setPins(&pmod8LD,pmod8LDvalue);
+}
+
+void init8LDDevice() {
+	GPIO_begin(&pmod8LD, XPAR_PMODGPIO_0_AXI_LITE_GPIO_BASEADDR, 0x00);
 }
 
 void initOLEDDevice() {

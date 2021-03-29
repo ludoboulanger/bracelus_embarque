@@ -15,6 +15,7 @@
 #include "sleep.h"
 #include "PmodGPIO.h"
 #include "MouvAnalyseIP.h"
+#include "CardioAnalyseIP.h"
 #include "PmodOLED.h"
 
 
@@ -45,12 +46,16 @@ int				get_reminder();
 // Autre
 int 			get_o2();
 
-u16 AD1_GetSampleRaw();
-float AD1_GetSampleVoltage();
+u16 read_analyse_mouv_ip0();
+u16 read_analyse_mouv_ip1();
+float get_sample_voltage_ADC();
 
 void 			initOLEDDevice();
 void 			updateOLEDDevice();
 void 			changeOLEDSelector(char selector);
+
+void init8LDDevice();
+void update8LDDevice();
 
 #endif /* SRC_S4I_TOOLS_H_ */
 
