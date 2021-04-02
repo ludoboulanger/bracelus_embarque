@@ -101,7 +101,8 @@ u16 get_mouv_donnee() {
 
 int get_reminder() {
 	// En realite, retournes 0 ou 1 dependamment de si on a un reminder de bouger ou non
-	return 0;
+	float data = get_sample_voltage_ADC(RAPPEL_BOUGER);
+	return data;
 }
 
 char* get_zone_cardiaque() {

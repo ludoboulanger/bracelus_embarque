@@ -53,11 +53,6 @@ type type_etat is (
     RAPPEL3, 
     RAPPEL4, 
     RAPPEL5,
-    RAPPEL6,
-    RAPPEL7, 
-    RAPPEL8, 
-    RAPPEL9, 
-    RAPPEL10, 
     RESET
     );
 signal s_etat_courant, s_prochain_etat : type_etat;
@@ -97,16 +92,6 @@ begin
             when RAPPEL4 =>
                 s_prochain_etat <= RAPPEL5;
             when RAPPEL5 =>
-                s_prochain_etat <= RAPPEL6;
-            when RAPPEL6 =>
-                s_prochain_etat <= RAPPEL7;
-            when RAPPEL7 =>
-                s_prochain_etat <= RAPPEL8;
-            when RAPPEL8 =>
-                s_prochain_etat <= RAPPEL9;
-            when RAPPEL9 =>
-                s_prochain_etat <= RAPPEL10;
-            when RAPPEL10 =>
                 s_prochain_etat <= COMPTE; 
             when RESET =>
                 s_prochain_etat <= COMPTE;
@@ -116,10 +101,10 @@ begin
     end process;
 
     o_strobe_rappel <= '1' when s_etat_courant = RAPPEL1 or
+                                s_etat_courant = RAPPEL2 or
                                 s_etat_courant = RAPPEL3 or
-                                s_etat_courant = RAPPEL5 or
-                                s_etat_courant = RAPPEL7 or
-                                s_etat_courant = RAPPEL9
+                                s_etat_courant = RAPPEL4 or
+                                s_etat_courant = RAPPEL5
                             else '0';
     
     o_cpt_reset <= '1' when s_etat_courant = RESET or 
