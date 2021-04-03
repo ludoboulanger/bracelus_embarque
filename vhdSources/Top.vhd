@@ -343,58 +343,53 @@ begin
     );
     
     
---    BlockDesign: design_1_wrapper 
---    port map(
---        DDR_addr=> DDR_addr,
---        DDR_ba=> DDR_ba,
---        DDR_cas_n=> DDR_cas_n,
---        DDR_ck_n=> DDR_ck_n,
---        DDR_ck_p=> DDR_ck_p,
---        DDR_cke=> DDR_cke,
---        DDR_cs_n=> DDR_cs_n,
---        DDR_dm=> DDR_dm,
---        DDR_dq=> DDR_dq,
---        DDR_dqs_n=> DDR_dqs_n,
---        DDR_dqs_p=> DDR_dqs_p,
---        DDR_odt=> DDR_odt,
---        DDR_ras_n=> DDR_ras_n,
---        DDR_reset_n=> DDR_reset_n,
---        DDR_we_n=> DDR_we_n,
---        FIXED_IO_ddr_vrn=> FIXED_IO_ddr_vrn,
---        FIXED_IO_ddr_vrp=> FIXED_IO_ddr_vrp,
---        FIXED_IO_mio=>FIXED_IO_mio,
---        FIXED_IO_ps_clk=> FIXED_IO_ps_clk,
---        FIXED_IO_ps_porb=> FIXED_IO_ps_porb,
---        FIXED_IO_ps_srstb=> FIXED_IO_ps_srstb,
---        Pmod_8LD_pin1_io => Pmod_8LD(0),
---        Pmod_8LD_pin2_io => Pmod_8LD(1),
---        Pmod_8LD_pin3_io => Pmod_8LD(2),
---        Pmod_8LD_pin4_io => Pmod_8LD(3),
---        Pmod_8LD_pin7_io => Pmod_8LD(4),
---        Pmod_8LD_pin8_io => Pmod_8LD(5),
---        Pmod_8LD_pin9_io => Pmod_8LD(6),
---        Pmod_8LD_pin10_io  => Pmod_8LD(7),
---        Pmod_OLED_pin1_io => Pmod_OLED(0),
---        Pmod_OLED_pin2_io => Pmod_OLED(1),
---        Pmod_OLED_pin3_io => Pmod_OLED(2),
---        Pmod_OLED_pin4_io => Pmod_OLED(3),
---        Pmod_OLED_pin7_io => Pmod_OLED(4),
---        Pmod_OLED_pin8_io => Pmod_OLED(5),
---        Pmod_OLED_pin9_io => Pmod_OLED(6),
---        Pmod_OLED_pin10_io => Pmod_OLED(7),
---        i_bclk => clk_5MHz,
---        i_clk1Hz => clk_1Hz,
---        i_adc_strobe=> adc_strobe,
---        i_data_mouvement=> d_echantillon_mouv,
---        i_data_cardio   => d_echantillon_cardio,
---        i_sw_tri_i=> i_sw,
---        o_leds_tri_o=> o_leds
---    );
-
---    o_leds(0) <= out_DAC_bit;
-
---    o_leds <= d_echantillon(3 downto 0);
---    Pmod_8LD <= d_echantillon(11 downto 4);
+    BlockDesign: design_1_wrapper 
+    port map(
+        DDR_addr=> DDR_addr,
+        DDR_ba=> DDR_ba,
+        DDR_cas_n=> DDR_cas_n,
+        DDR_ck_n=> DDR_ck_n,
+        DDR_ck_p=> DDR_ck_p,
+        DDR_cke=> DDR_cke,
+        DDR_cs_n=> DDR_cs_n,
+        DDR_dm=> DDR_dm,
+        DDR_dq=> DDR_dq,
+        DDR_dqs_n=> DDR_dqs_n,
+        DDR_dqs_p=> DDR_dqs_p,
+        DDR_odt=> DDR_odt,
+        DDR_ras_n=> DDR_ras_n,
+        DDR_reset_n=> DDR_reset_n,
+        DDR_we_n=> DDR_we_n,
+        FIXED_IO_ddr_vrn=> FIXED_IO_ddr_vrn,
+        FIXED_IO_ddr_vrp=> FIXED_IO_ddr_vrp,
+        FIXED_IO_mio=>FIXED_IO_mio,
+        FIXED_IO_ps_clk=> FIXED_IO_ps_clk,
+        FIXED_IO_ps_porb=> FIXED_IO_ps_porb,
+        FIXED_IO_ps_srstb=> FIXED_IO_ps_srstb,
+        Pmod_8LD_pin1_io => Pmod_8LD(0),
+        Pmod_8LD_pin2_io => Pmod_8LD(1),
+        Pmod_8LD_pin3_io => Pmod_8LD(2),
+        Pmod_8LD_pin4_io => Pmod_8LD(3),
+        Pmod_8LD_pin7_io => Pmod_8LD(4),
+        Pmod_8LD_pin8_io => Pmod_8LD(5),
+        Pmod_8LD_pin9_io => Pmod_8LD(6),
+        Pmod_8LD_pin10_io  => Pmod_8LD(7),
+        Pmod_OLED_pin1_io => Pmod_OLED(0),
+        Pmod_OLED_pin2_io => Pmod_OLED(1),
+        Pmod_OLED_pin3_io => Pmod_OLED(2),
+        Pmod_OLED_pin4_io => Pmod_OLED(3),
+        Pmod_OLED_pin7_io => Pmod_OLED(4),
+        Pmod_OLED_pin8_io => Pmod_OLED(5),
+        Pmod_OLED_pin9_io => Pmod_OLED(6),
+        Pmod_OLED_pin10_io => Pmod_OLED(7),
+        i_bclk => clk_5MHz,
+        i_clk1Hz => clk_1Hz,
+        i_adc_strobe=> adc_strobe,
+        i_data_mouvement=> d_echantillon_mouv,
+        i_data_cardio   => d_echantillon_cardio,
+        i_sw_tri_i=> i_sw,
+        o_leds_tri_o=> open
+    );
 
     o_DAC_CLK <= source_clk_5MHz;
     o_ADC_CLK <= source_clk_5MHz;
@@ -408,7 +403,7 @@ begin
           i_ADC_echantillon_pret    => adc_strobe,
           i_reset                   => reset, 
           o_urgence                 => s_urgence_cardiaque,
-          o_cpt_val                 => Pmod_8LD
+          o_cpt_val                 => open                     -- Ce port sert a visualiser le code assembleur sur le 8LD
     );
     
     o_leds <= "1111" when s_urgence_cardiaque = '1' else "0000";
