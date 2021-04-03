@@ -407,6 +407,6 @@ begin
     );
     
     o_leds <= "1111" when s_urgence_cardiaque = '1' else "0000";
-      
+    
 end Behavioral;
 

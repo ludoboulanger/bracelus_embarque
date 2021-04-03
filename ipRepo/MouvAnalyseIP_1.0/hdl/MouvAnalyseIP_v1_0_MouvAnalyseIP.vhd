@@ -104,7 +104,7 @@ architecture arch_imp of MouvAnalyseIP_v1_0_MouvAnalyseIP is
     component analyse_rappel_bouger is
     Port ( i_moyenne : in STD_LOGIC_VECTOR (1 downto 0);
            i_clk1Hz : in STD_LOGIC;
-           o_rappel : out STD_LOGIC_VECTOR (7 downto 0));
+           o_rappel : out STD_LOGIC_VECTOR(7 downto 0));
     end component;
 
 	-- AXI4LITE signals
