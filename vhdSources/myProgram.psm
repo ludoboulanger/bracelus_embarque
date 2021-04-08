@@ -21,7 +21,7 @@ init:		LOAD s3, 00 							; Compteur initialise a 0
 			OUTPUT s4, o_urgence					
 			;
 attente: 		
-			INPUT s0, Echantillon_Pret_Port		; Met la val de ADC_STROBE dans s0
+			INPUT s0, Echantillon_Pret_Port			; Met la val de ADC_STROBE dans s0
 			COMPARE s0, 00							; Compare ADC strobe avec 0
 			JUMP Z, attente							; Si pas de strobe, on fais rien
 			;
