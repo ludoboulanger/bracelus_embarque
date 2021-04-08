@@ -72,7 +72,7 @@ begin
     begin
         case (s_etat_courant) is
             when COMPTE =>
-                if i_cpt_strobe = "00111100" then
+                if i_cpt_strobe = "00011110" then -- pour 30 --"00111100" then pour 60
                     s_prochain_etat <= BILAN;
                 else 
                     s_prochain_etat <= s_etat_courant;

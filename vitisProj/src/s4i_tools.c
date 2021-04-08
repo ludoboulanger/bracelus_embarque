@@ -102,7 +102,11 @@ u16 get_mouv_donnee() {
 int get_reminder() {
 	// En realite, retournes 0 ou 1 dependamment de si on a un reminder de bouger ou non
 	float data = get_sample_voltage_ADC(RAPPEL_BOUGER);
-	return data;
+	if (data == 0) {
+		return 0;
+	} else {
+		return 1;
+	}
 }
 
 char* get_zone_cardiaque() {
@@ -140,7 +144,7 @@ u16 read_analyse_mouv_ip0()
 u16 read_analyse_mouv_ip1()
 {
 	u16 rawData =  MOUVANALYSEIP_mReadReg(MY_MOUV_ANALYSE_IP_BASEADDRESS, MOUVANALYSEIP_MouvAnalyseIP_SLV_REG1_OFFSET) & 0xFFF;
-	xil_printf("0x%x \n\r",rawData);
+
 	return rawData;
 }
 

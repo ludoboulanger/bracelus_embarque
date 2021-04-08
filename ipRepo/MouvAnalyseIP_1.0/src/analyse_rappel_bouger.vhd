@@ -61,7 +61,7 @@ component mef_rappel_bouger is
            o_strobe_rappel : out STD_LOGIC);
 end component;
 
-constant c_threshold : std_logic_vector(7 downto 0) := "00110010";
+constant c_threshold : std_logic_vector(7 downto 0) :=  "00010100"; -- 20 --"00110010"; -- 50 
 signal s_cpt_val : std_logic_vector(7 downto 0);
 signal s_cpt_reset : std_logic;
 signal s_moyenne_0 : std_logic_vector(7 downto 0);
