@@ -232,7 +232,7 @@ int do_http_get(int sd, char *req, int rlen)
     } else if (s4i_is_analyse_activite_physique(req)) {
     	char mouv_buf[50];
     	u16 res = get_mouv_donnee();
-    	xil_printf("Result Mouvement: %d\r\n", res);
+    	// xil_printf("Result Mouvement: %d\r\n", res);
     	if (res == 2) {
     		sprintf(mouv_buf, "{\"niveau\": \"Zone Intense\"}");
     	} else if (res == 1) {

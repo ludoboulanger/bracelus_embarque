@@ -17,6 +17,7 @@ entity MouvAnalyseIP_v1_0 is
 	port (
 		-- Users to add ports here
 		i_bclk : in std_logic;
+		i_clk1Hz : in std_logic;
         i_data_echantillon : in std_logic_vector(11 downto 0);
         i_adc_strobe : in std_logic;
         o_data_out0 : out std_logic_vector(1 downto 0);
@@ -59,6 +60,7 @@ architecture arch_imp of MouvAnalyseIP_v1_0 is
 		C_S_AXI_ADDR_WIDTH	: integer	:= 4
 		);
 		port (
+		i_clk1Hz : in std_logic;
 		i_bclk : in std_logic;
 		i_data_echantillon : in std_logic_vector(11 downto 0);
 		i_adc_strobe : in std_logic;
@@ -99,6 +101,7 @@ MouvAnalyseIP_v1_0_MouvAnalyseIP_inst : MouvAnalyseIP_v1_0_MouvAnalyseIP
 	)
 	port map (
 	    i_bclk => i_bclk,
+	    i_clk1Hz => i_clk1Hz,
 	    i_data_echantillon => i_data_echantillon,
 	    i_adc_strobe => i_adc_strobe,
 	    o_data_out0 => o_data_out0,

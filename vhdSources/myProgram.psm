@@ -1,0 +1,48 @@
+			; myProgram.psm
+			;
+			; This is the start of 'myProgram' for KCPSM6
+			;
+			;
+			; INPUTS
+			CONSTANT ADC_ech_zero, 01
+			;
+			CONSTANT Echantillon_Pret_Port, 02
+			;
+			CONSTANT RESET, 03
+			;
+			;
+			; OUTPUTS
+			CONSTANT o_urgence, 04
+			;
+			CONSTANT o_cpt_val, 08
+			;
+init:		LOAD s3, 00 							; Compteur initialise a 0
+			LOAD s4, 00								; init sortie a 0
+			OUTPUT s4, o_urgence					
+			;
+attente: 		
+			INPUT s0, Echantillon_Pret_Port			; Met la val de ADC_STROBE dans s0
+			COMPARE s0, 00							; Compare ADC strobe avec 0
+			JUMP Z, attente							; Si pas de strobe, on fais rien
+			;
+			INPUT s1, ADC_ech_zero					; Met la val de i_ech_0 dans s1
+			;
+			COMPARE s1, 00							; Compare pour i_ech < 5
+			JUMP NZ, compte							; Jump si l'ech est 0. Prend en compte le bruit dans les echantillons
+			JUMP init								; Saute a init si l'echantillon est bon pour reset le cpt
+			;
+			;		
+compte:										;	
+			ADD s3, 01								; cpt += 1
+			OUTPUT s3, o_cpt_val					; Output valeur du comtpeur sur 8LD (TEMPORAIRE)
+			COMPARE s3, FF							; Regarde que le compteur est plus grand que 128 === 3 secondes 
+			JUMP C, attente						
+			;
+			LOAD s4, 01								; Met 01 dans le registre de sortie
+			OUTPUT s4, o_urgence					; Output 1 dans les leds
+affProblemeCardio:									;
+			INPUT s0, RESET							; Met la val de i_reset dans s0
+			COMPARE s0, 00							; Compare Reset a 0
+			JUMP NZ, init							; Si 1, retourne a init
+			JUMP affProblemeCardio					; Reset dans la boucle jusquau reset
+	

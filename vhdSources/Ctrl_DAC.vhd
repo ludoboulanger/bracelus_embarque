@@ -497,32 +497,33 @@ constant mem_forme_signal_sed : tableau_mouv := (others => x"000");
 constant nbEchantillonMemoireCardio : integer := 24;
 --constant nbEchantillonMemoire : integer := 201;
 type tableau_cardio is array (integer range 0 to nbEchantillonMemoireCardio - 1) of std_logic_vector(11 downto 0);
-constant mem_forme_signal_cardio : tableau_cardio := (
-    x"400",
-    x"258",
-    x"113",
-    x"046",
-    x"001",
-    x"046",
-    x"113",
-    x"258",
-    x"400",
-    x"5EE",
-    x"800", --800
-    x"A11",
-    x"BFF",
-    x"DA7",
-    x"EEC",
-    x"FB9",
-    x"FFF",
-    x"FB9",
-    x"EEC",
-    x"DA7",
-    x"BFF",
-    x"A11",
-    x"800",
-    x"5EE"
-);
+--constant mem_forme_signal_cardio : tableau_cardio := (
+--    x"400",
+--    x"258",
+--    x"113",
+--    x"046",
+--    x"001",
+--    x"046",
+--    x"113",
+--    x"258",
+--    x"400",
+--    x"5EE",
+--    x"800", --800
+--    x"A11",
+--    x"BFF",
+--    x"DA7",
+--    x"EEC",
+--    x"FB9",
+--    x"FFF",
+--    x"FB9",
+--    x"EEC",
+--    x"DA7",
+--    x"BFF",
+--    x"A11",
+--    x"800",
+--    x"5EE"
+--);
+constant mem_forme_signal_cardio : tableau_cardio := (others => x"000");
     constant c_NbIteration : unsigned(3 downto 0) := "1000";
 
     signal d_compteur_echantillonMemoireMouv : unsigned(7 downto 0) := (others => '0');

@@ -1,49 +1,55 @@
---------------------------------------------------------------------------------
--- compteur_simple.vhd
--- D. Dalle 13 décembre 2018, révision 26 décembre 2018 
--- version avec équations de transitions booléenes explicitement codées
--- dans cette version, le reset est synchrone
+---------------------------------------------------------------------------------------------
+-- circuit compteur_nbits.vhd.vhd
+---------------------------------------------------------------------------------------------
+-- Université de Sherbrooke - Département de GEGI
+-- Version         : 1.0
+-- Nomenclature    : 0.8 GRAMS
+-- Date            : 14 mai 2019
+-- Auteur(s)       : Daniel Dalle
+-- Technologies    : FPGA Zynq (carte ZYBO Z7-10 ZYBO Z7-20)
+--
+-- Outils          : vivado 2018.2
+---------------------------------------------------------------------------------------------
+-- Description:
+-- Compteur a avec nombre de bits en parametre generic
+---------------------------------------------------------------------------------------------
+-- À faire :
+-- 
+-- 
+---------------------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
+use IEEE.STD_LOGIC_UNSIGNED.ALL;  -- pour les additions dans les compteurs
 
 entity compteur_simple is
-   port ( 
-          clk             : in    std_logic; 
+generic (nbits : integer := 8);
+   port ( clk             : in    std_logic; 
+          i_en            : in    std_logic; 
           reset           : in    std_logic; 
-          o_val_cpt       : out   std_logic_vector (3 downto 0)
+          o_val_cpt       : out   std_logic_vector (nbits-1 downto 0)
           );
 end compteur_simple;
 
 architecture BEHAVIORAL of compteur_simple is               
--- compteur binaire 4 bits simple avec reset synchrone
+-- compteur simple
 
- signal  NQ, Q: std_logic_vector (3 downto 0);
-  
- BEGIN
- 
--- equations de transition du compteur (prochain etat)
- transition_proc : process ( Q, reset)
-    begin   
-        NQ(0) <= (not reset) and (not Q(0)) ; 
-        NQ(1) <= (not reset) and (Q(1) xor   Q(0));
-        NQ(2) <= (not reset) and (Q(2) xor ( Q(0) and Q(1))); 
-        NQ(3) <= (not reset) and (Q(3) xor ( Q(0) and Q(1) and Q(2)) );                                             
-    end process;
+signal  d_val_cpt: std_logic_vector (nbits-1 downto 0);
 
--- prochain etat du compteur
-compteur_proc : process (clk)
+BEGIN
+
+compteur_proc : process (clk, reset, i_en)
    begin
-        if (rising_edge(clk)) then
-           Q(0) <= NQ(0); 
-           Q(1) <= NQ(1);
-           Q(2) <= NQ(2); 
-           Q(3) <= NQ(3);                               
-       end if;
+      if ( reset = '1') then
+          d_val_cpt <= (others =>'0');
+      else
+      if (rising_edge(clk) AND i_en = '1') then
+          d_val_cpt <= d_val_cpt + 1;
+      end if;
+      end if;
    end process;
-        
 -- sortie
-  o_val_cpt <= Q;
+  o_val_cpt <= d_val_cpt;
   
  END Behavioral;
   

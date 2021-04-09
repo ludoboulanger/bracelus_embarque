@@ -102,7 +102,8 @@ architecture Behavioral of Top is
         Pmod_OLED_pin8_io : inout STD_LOGIC;
         Pmod_OLED_pin9_io : inout STD_LOGIC;
         i_adc_strobe : in STD_LOGIC;
-        i_bclk_0 : in STD_LOGIC;
+        i_bclk : in STD_LOGIC;
+        i_clk1Hz : in STD_LOGIC;
         i_data_cardio : in STD_LOGIC_VECTOR ( 11 downto 0 );
         i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
         i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -110,7 +111,51 @@ architecture Behavioral of Top is
         o_leds_tri_o : out STD_LOGIC_VECTOR ( 3 downto 0 );
         o_mouv_analyse0 : out STD_LOGIC_VECTOR ( 1 downto 0 );
         o_mouv_analyse1 : out STD_LOGIC_VECTOR ( 31 downto 0 )
-  );
+    );
+    end component;
+    
+        component kcpsm6 is
+          generic(                 hwbuild : std_logic_vector(7 downto 0) := X"00";
+                          interrupt_vector : std_logic_vector(11 downto 0) := X"3FF";
+                   scratch_pad_memory_size : integer := 64);
+          port (                   address : out std_logic_vector(11 downto 0);
+                               instruction : in std_logic_vector(17 downto 0);
+                               bram_enable : out std_logic;
+                                   in_port : in std_logic_vector(7 downto 0);
+                                  out_port : out std_logic_vector(7 downto 0);
+                                   port_id : out std_logic_vector(7 downto 0);
+                              write_strobe : out std_logic;
+                            k_write_strobe : out std_logic;
+                               read_strobe : out std_logic;
+                                 interrupt : in std_logic;
+                             interrupt_ack : out std_logic;
+                                     sleep : in std_logic;
+                                     reset : in std_logic;
+                                       clk : in std_logic);
+      end component;
+  
+        component myProgram                             
+        generic(             
+                             C_FAMILY : string := "S6"; 
+                    C_RAM_SIZE_KWORDS : integer := 1;
+                 C_JTAG_LOADER_ENABLE : integer := 0);
+        Port (      
+                    address : in std_logic_vector(11 downto 0);
+                instruction : out std_logic_vector(17 downto 0);
+                     enable : in std_logic;
+                        rdl : out std_logic;                    
+                        clk : in std_logic);
+      end component;
+      
+    component Pblaze_uCtrler is
+    port (
+        clk                     : in std_logic;
+        i_ADC_echantillon       : in std_logic_vector (11 downto 0); 
+        i_ADC_echantillon_pret  : in std_logic;
+        i_reset                 : in std_logic;
+        o_urgence               : out std_logic;
+        o_cpt_val               : out std_logic_vector(7 downto 0)
+    );
     end component;
 
     component Ctrl_AD1 is
@@ -148,6 +193,7 @@ architecture Behavioral of Top is
         clkm        : in  std_logic;  -- Entrée  horloge maitre   (50 MHz soit 20 ns ou 100 MHz soit 10 ns)
         o_S_5MHz    : out std_logic;  -- source horloge divisee          (clkm MHz / (2*constante_diviseur_p +2) devrait donner 5 MHz soit 200 ns)
         o_CLK_5MHz  : out std_logic;
+        o_CLK_1Hz   : out std_logic;
         o_S_100Hz   : out  std_logic; -- source horloge 100 Hz : out  std_logic;   -- (100  Hz approx:  99,952 Hz) 
         o_stb_100Hz : out  std_logic; -- strobe 100Hz synchro sur clk_5MHz
         o_stb_1Hz   : out std_logic;
@@ -165,6 +211,7 @@ architecture Behavioral of Top is
     end component;  
     
     signal clk_5MHz                     : std_logic;
+     signal clk_1Hz                     : std_logic;
     signal d_S_5MHz                     : std_logic;
     signal d_strobe_100Hz               : std_logic := '0';  -- cadence echantillonnage AD1
     
@@ -194,6 +241,25 @@ architecture Behavioral of Top is
      
      -- DAC
      signal out_DAC_bit : std_logic;
+     
+     -- PICOBLAZE --
+    signal         address : std_logic_vector(11 downto 0);
+    signal     instruction : std_logic_vector(17 downto 0);
+    signal     bram_enable : std_logic;
+    signal         in_port : std_logic_vector(7 downto 0);
+    signal        out_port : std_logic_vector(7 downto 0);
+    signal         port_id : std_logic_vector(7 downto 0);
+    signal    write_strobe : std_logic;
+    signal  k_write_strobe : std_logic;
+    signal     read_strobe : std_logic;
+    signal       interrupt : std_logic;
+    signal   interrupt_ack : std_logic;
+    signal    kcpsm6_sleep : std_logic;
+    signal    kcpsm6_reset : std_logic;
+    
+    signal q_leds          : std_logic_vector ( 3 downto 0 ) := (others => '1');
+    signal q_Pmod_8LD      : std_logic_vector ( 7 downto 0 ) := (others => '1');
+    signal s_urgence_cardiaque : std_logic;
     
     
      
@@ -269,6 +335,7 @@ begin
            clkm         =>  sys_clock,
            o_S_5MHz     =>  source_clk_5MHz,
            o_CLK_5MHz   => clk_5MHz,
+           o_CLK_1Hz    => clk_1Hz,
            o_S_100Hz    => open,
            o_stb_100Hz  => d_strobe_100Hz,  -- OUBLI PAS DE CHANGER POUR 1Hz, 100Hz juste pour simule
            o_stb_1Hz    => strobe_1_Hz,
@@ -315,21 +382,31 @@ begin
         Pmod_OLED_pin8_io => Pmod_OLED(5),
         Pmod_OLED_pin9_io => Pmod_OLED(6),
         Pmod_OLED_pin10_io => Pmod_OLED(7),
-        i_bclk_0 => clk_5MHz,
+        i_bclk => clk_5MHz,
+        i_clk1Hz => clk_1Hz,
         i_adc_strobe=> adc_strobe,
         i_data_mouvement=> d_echantillon_mouv,
         i_data_cardio   => d_echantillon_cardio,
         i_sw_tri_i=> i_sw,
-        o_leds_tri_o=> o_leds
+        o_leds_tri_o=> open
     );
-
---    o_leds(0) <= out_DAC_bit;
-
---    o_leds <= d_echantillon(3 downto 0);
---    Pmod_8LD <= d_echantillon(11 downto 4);
 
     o_DAC_CLK <= source_clk_5MHz;
     o_ADC_CLK <= source_clk_5MHz;
-      
+
+      -- POUR LE PICOBLAZE --
+
+    Picoblaze : Pblaze_uCtrler
+    port map(
+          clk                       =>  clk_5MHz,          
+          i_ADC_echantillon         => d_echantillon_cardio,
+          i_ADC_echantillon_pret    => adc_strobe,
+          i_reset                   => reset, 
+          o_urgence                 => s_urgence_cardiaque,
+          o_cpt_val                 => open                     -- Ce port sert a visualiser le code assembleur sur le 8LD
+    );
+    
+    o_leds <= "1111" when s_urgence_cardiaque = '1' else "0000";
+    
 end Behavioral;
 

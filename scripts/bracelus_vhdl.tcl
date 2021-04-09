@@ -58,6 +58,9 @@ proc checkRequiredFiles { origin_dir} {
    "$origin_dir/../vhdSources/registre_12b.vhd" \
    "$origin_dir/../vhdSources/registre_16b.vhd" \
    "$origin_dir/../vhdSources/Top.vhd" \
+   "$origin_dir/../vhdSources/kcpsm6.vhd" \
+   "$origin_dir/../vhdSources/myProgram.vhd" \
+   "$origin_dir/../vhdSources/Pblaze_uCtrler.vhd" \
    "$origin_dir/../constraints/Atelier3_Constraintes.xdc" \
    "$origin_dir/../testbenches/top_tb.vhd" \
    "$origin_dir/../testbenches/fichier_top_tb.vhd" \
@@ -225,7 +228,11 @@ set files [list \
  [file normalize "${origin_dir}/../vhdSources/registre_12b.vhd"]\
  [file normalize "${origin_dir}/../vhdSources/registre_16b.vhd"]\
  [file normalize "${origin_dir}/../vhdSources/Top.vhd"]\
+ [file normalize "${origin_dir}/../vhdSources/kcpsm6.vhd"]\
+ [file normalize "${origin_dir}/../vhdSources/myProgram.vhd"]\
+ [file normalize "${origin_dir}/../vhdSources/Pblaze_uCtrler.vhd"]\
 ]
+
 # ==>Ne pas créer de copies locales des fichiers sources dans le projet Vivado et garder une seule et unique version 
 
 add_files -norecurse -fileset $obj $files
@@ -279,6 +286,20 @@ set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
 
+set file "${origin_dir}/../vhdSources/kcpsm6.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "${origin_dir}/../vhdSources/myProgram.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "${origin_dir}/../vhdSources/Pblaze_uCtrler.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
 
 # Set 'sources_1' fileset properties
 set obj [get_filesets sources_1]

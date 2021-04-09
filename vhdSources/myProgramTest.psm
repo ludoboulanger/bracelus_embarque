@@ -1,0 +1,46 @@
+			; myProgram.psm
+			;
+			; This is the start of 'myProgram' for KCPSM6
+			;
+			;  8-bit LSB d'un échantillon de l'ADC
+			CONSTANT ADC_LSB_port, 00
+			;
+			;  4-bit MSB d'un échantillon de l'ADC
+			CONSTANT ADC_MSB_port, 01
+			;
+			;  
+			CONSTANT Echantillon_Pret_Port, 02
+			;
+			CONSTANT Echantillon_8bits_Port, 04
+			; 
+			CONSTANT CptrSeuil_Port, 08
+			;
+			;
+init:		LOAD sA, 00
+			LOAD s5, 00
+			LOAD s3, FF
+			LOAD s4, 0F
+			;
+start:		INPUT s0, Echantillon_Pret_Port
+			COMPARE s0, 00							;Compare pour verifier que le strobe est a 1
+			JUMP Z, start							; Si strobe a 0, on ne fait rien
+			;
+			INPUT s1, ADC_LSB_port
+			INPUT s2, ADC_MSB_port
+			;
+			COMPARE s1, 00
+			COMPARECY s2, 00
+			JUMP NZ, affBonCardio			; Jump si le est a x"000"
+affProblemeCardio:	
+			OUTPUT s5, LED_port
+			OUTPUT s6, Pmod_8LD_port
+			OUTPUT s6, Pmod_8LD_port
+			JUMP start
+		
+affBonCardio:	;
+			LOAD s5, 00 ; Pas bonne valeur remet compteur a 0
+			;
+			OUTPUT s3, LED_port
+			OUTPUT s3, Pmod_8LD_port
+			OUTPUT s3, Pmod_8LD_port
+			JUMP start			
