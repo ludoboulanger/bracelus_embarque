@@ -61,7 +61,7 @@ signal etat_courant, nouvelle_etat : mef_etat;
 
 signal reset_compt : std_logic := '0';
 signal val_compt : std_logic_vector (7 downto 0);
-signal last_val_compt : std_logic_vector (7 downto 0);
+signal last_val_compt : std_logic_vector (7 downto 0) := (others => '0');
 signal last_strobe: std_logic := '0';
 signal dif: signed(11 downto 0);
 
@@ -90,10 +90,13 @@ begin
     if(i_reset = '1') then
         etat_courant <= Sous_Seuil;
     elsif (rising_edge(i_clk)) then
-        if(i_strobe = '1' AND last_strobe = '0' ) then
+        if(i_strobe = '1') then
             etat_courant <= nouvelle_etat;
         end if;
-        last_strobe <= i_strobe;
+        
+        if(etat_courant = Compter) then
+            last_val_compt <= val_compt;
+        end if;
     end if;
 end process;
 
@@ -106,11 +109,16 @@ end process;
             when Sous_Seuil =>
                 if(signed(i_echantillon) > seuil) then
                     nouvelle_etat <= Sommet;
+                else
+                    nouvelle_etat <= Sous_Seuil;
                 end if;
+                
                 
             when Sommet =>
                 if(signed(i_echantillon) < seuil) then
                     nouvelle_etat <= Compter;
+                else
+                    nouvelle_etat <= Sommet;
                 end if;
                 
             when Compter => 
@@ -133,7 +141,7 @@ end process;
                 o_echantillon_pret <='0';
                 
             when Compter => 
-                o_cpt <= val_compt;
+                --last_val_compt <= val_compt;
                 o_echantillon_pret <='1';
                 reset_compt <= '0';
                 
@@ -142,4 +150,6 @@ end process;
                 reset_compt <= '1';
         end case;
     end process;
+    
+    o_cpt <= val_compt when (etat_courant =  Compter) else last_val_compt;
 end Behavioral;

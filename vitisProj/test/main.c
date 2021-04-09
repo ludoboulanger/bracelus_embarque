@@ -29,9 +29,6 @@ u16 getMouvZone();
 
 const float ReferenceVoltage = 3.3;
 
-u16 last0;
-u16 last1;
-u16 last2;
 u16 mouvZone;
 
 int main()
@@ -120,17 +117,8 @@ u16 AD1_GetSampleRaw()
 	u16 rawData1 =  MOUVANALYSEIP_mReadReg(MOUV_IP_BASE_ADDR, MOUVANALYSEIP_MouvAnalyseIP_SLV_REG1_OFFSET) & 0xFFF;
 
 	u16 rawData2 =  CARDIOANALYSEIP_mReadReg(CARDIO_IP_BASE_ADDR, CARDIOANALYSEIP_S00_AXI_SLV_REG0_OFFSET) & 0xFFF;
+	xil_printf("0x%x  0x%x 0x%x %d \n\r",rawData0, rawData1, rawData2, 6000/rawData2);
 
-	xil_printf("0x%x  0x%x 0x%x \n\r",rawData0, rawData1, rawData2);
-
-	if(	last2 != rawData2)
-	{
-		last0 = rawData0;
-
-	}
-
-	last1 = rawData1;
-	last2 = rawData2;
 	return rawData2;
 }
 

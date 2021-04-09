@@ -103,8 +103,8 @@ architecture Behavioral of Top is
         Pmod_OLED_pin9_io : inout STD_LOGIC;
         i_adc_strobe : in STD_LOGIC;
         i_bclk : in STD_LOGIC;
+		i_analyse_cardio : in STD_LOGIC_VECTOR ( 7 downto 0 );
         i_clk1Hz : in STD_LOGIC;
-        i_data_cardio : in STD_LOGIC_VECTOR ( 11 downto 0 );
         i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
         i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
         o_cardio_analyse : out STD_LOGIC_VECTOR ( 31 downto 0 );
@@ -208,7 +208,14 @@ architecture Behavioral of Top is
               reset           : in    std_logic; 
               o_val_cpt       : out   std_logic_vector (nbits-1 downto 0)
               );
-    end component;  
+    end component; 
+    
+    component Analyse_cardio is
+    Port ( i_echantillon : in std_logic_vector(11 downto 0);
+           i_bclk : in STD_LOGIC;
+           i_strobe : in STD_LOGIC;
+           o_cpt : out std_logic_vector(7 downto 0));
+    end component; 
     
     signal clk_5MHz                     : std_logic;
      signal clk_1Hz                     : std_logic;
@@ -260,6 +267,7 @@ architecture Behavioral of Top is
     signal q_leds          : std_logic_vector ( 3 downto 0 ) := (others => '1');
     signal q_Pmod_8LD      : std_logic_vector ( 7 downto 0 ) := (others => '1');
     signal s_urgence_cardiaque : std_logic;
+     signal s_analyse_cardio : std_logic_vector(7 downto 0);
     
     
      
@@ -302,6 +310,7 @@ begin
     begin
         adc_strobe <= q_adc_lire and not(q_prec_adc_lire);
     end process; 
+        
      
     Controleur_ADC :  Ctrl_AD1 
     port map(
@@ -386,9 +395,17 @@ begin
         i_clk1Hz => clk_1Hz,
         i_adc_strobe=> adc_strobe,
         i_data_mouvement=> d_echantillon_mouv,
-        i_data_cardio   => d_echantillon_cardio,
+        i_analyse_cardio   => s_analyse_cardio,
         i_sw_tri_i=> i_sw,
         o_leds_tri_o=> open
+    );
+    
+    inst_analy_cardio: Analyse_cardio
+    port map(
+    i_echantillon => d_echantillon_cardio,
+    i_bclk => clk_5MHz,
+    i_strobe => adc_strobe,
+    o_cpt => s_analyse_cardio
     );
 
     o_DAC_CLK <= source_clk_5MHz;

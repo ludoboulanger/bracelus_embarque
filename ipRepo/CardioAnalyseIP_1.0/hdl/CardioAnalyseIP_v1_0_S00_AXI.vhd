@@ -16,10 +16,7 @@ entity CardioAnalyseIP_v1_0_S00_AXI is
 	);
 	port (
 		-- Users to add ports here
-		i_bclk : in STD_LOGIC;
-		i_strobe_adc : in STD_LOGIC;
-        i_data_echantillon : in std_logic_vector(11 downto 0);
-        o_data_out : out std_logic_vector(31 downto 0);
+        i_analyse : in std_logic_vector(7 downto 0);
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 
@@ -89,26 +86,7 @@ end CardioAnalyseIP_v1_0_S00_AXI;
 architecture arch_imp of CardioAnalyseIP_v1_0_S00_AXI is
 
 
-    component mef_bpm is
-    Port (i_echantillon : in STD_LOGIC_VECTOR (11 downto 0);
-           i_clk : in STD_LOGIC;
-           i_strobe : in STD_LOGIC;
-           i_reset : in STD_LOGIC;
-           o_echantillon_pret : out STD_LOGIC;
-           o_cpt : out STD_LOGIC_VECTOR (7 downto 0)                                 
-    );
-    end component;
     
-    component calcul_moyenne is
-    Port (
-        i_bclk    : in   std_logic;   -- bit clock
-        i_reset   : in   std_logic;
-        i_en      : in   std_logic;   -- un echantillon present
-        i_echantillon_pret : in std_logic;
-        i_ech     : in   std_logic_vector (7 downto 0);
-        o_param   : out  std_logic_vector (7 downto 0)                                     
-    );
-    end component;
 
 
 	-- AXI4LITE signals
@@ -143,11 +121,6 @@ architecture arch_imp of CardioAnalyseIP_v1_0_S00_AXI is
 	signal reg_data_out	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
 	signal byte_index	: integer;
 	signal aw_en	: std_logic;
-	
-	signal s_cpt_val : STD_LOGIC_VECTOR (7 downto 0);
-	signal s_moyenne : STD_LOGIC_VECTOR (7 downto 0);
-	signal s_cpt_pret : STD_LOGIC;
-	signal s_data_out	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0) := (others => '0');
 
 begin
 	-- I/O Connections assignments
@@ -286,7 +259,7 @@ begin
 	              end if;
 	            end loop;
 	          when others =>
-	            slv_reg0 <= slv_reg0;
+	            slv_reg0 <= slv_reg0(31 downto 8)&i_analyse;
 	            slv_reg1 <= slv_reg1;
 	            slv_reg2 <= slv_reg2;
 	            slv_reg3 <= slv_reg3;
@@ -377,14 +350,14 @@ begin
 	-- and the slave is ready to accept the read address.
 	slv_reg_rden <= axi_arready and S_AXI_ARVALID and (not axi_rvalid) ;
 
-	process (s_data_out, slv_reg1, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
+	process (slv_reg0,slv_reg1,i_analyse, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
 	variable loc_addr :std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
 	begin
 	    -- Address decoding for reading registers
 	    loc_addr := axi_araddr(ADDR_LSB + OPT_MEM_ADDR_BITS downto ADDR_LSB);
 	    case loc_addr is
 	      when b"00" =>
-	        reg_data_out <= s_data_out;
+	        reg_data_out <= slv_reg0(31 downto 8) & i_analyse;
 	      when b"01" =>
 	        reg_data_out <= slv_reg1;
 	      when b"10" =>
@@ -414,32 +387,8 @@ begin
 	  end if;
 	end process;
 
-
-	-- Add user logic here
-	inst_mef_bpm: mef_bpm
-	port map( i_clk  => i_bclk,    
-	          i_reset  => '0',
-	          i_strobe => i_strobe_adc,
-              i_echantillon => i_data_echantillon,
-              o_echantillon_pret => s_cpt_pret,
-              o_cpt => s_cpt_val
-             );
-             
-    inst_moy: calcul_moyenne 
-    Port map(
-        i_bclk    => i_bclk,
-        i_reset   => '0',
-        i_en      => '1',
-        i_echantillon_pret => s_cpt_pret,
-        i_ech    => s_cpt_val,
-        o_param  => s_data_out(7 downto 0)                                   
-    );
-             
-    
     
     --s_data_out contient le signal analyse
-    
-    o_data_out <= s_data_out;
 	-- User logic ends
 
 end arch_imp;
