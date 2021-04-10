@@ -28,6 +28,8 @@ architecture Behavioral of calcul_moyenne is
 -- Signaux
 ----------------------------------------------------------------------------------
     signal reg_last_vals : std_logic_vector(63 downto 0) := (others => '0');
+    signal reg_add : unsigned(10 downto 0) := (others => '0');
+    signal reg_div : unsigned(10 downto 0) := (others => '0');
 
 ---------------------------------------------------------------------------------------------
 --    Description comportementale
@@ -45,13 +47,16 @@ begin
         end if;
     end process;
 
-    o_param <= std_logic_vector(shl(unsigned(reg_last_vals(63 downto 56)) + 
-                                           unsigned(reg_last_vals(55 downto 48)) + 
-                                           unsigned(reg_last_vals(47 downto 40)) + 
-                                           unsigned(reg_last_vals(39 downto 32)) +
-                                           unsigned(reg_last_vals(31 downto 24)) +
-                                           unsigned(reg_last_vals(23 downto 16)) +
-                                           unsigned(reg_last_vals(15 downto 8)) +
-                                           unsigned(reg_last_vals(7 downto 0)),"11"));
+    reg_add <= unsigned("000"&reg_last_vals(63 downto 56)) + 
+                                           unsigned("000"&reg_last_vals(55 downto 48)) + 
+                                           unsigned("000"&reg_last_vals(47 downto 40)) + 
+                                           unsigned("000"&reg_last_vals(39 downto 32)) +
+                                           unsigned("000"&reg_last_vals(31 downto 24)) +
+                                           unsigned("000"&reg_last_vals(23 downto 16)) +
+                                           unsigned("000"&reg_last_vals(15 downto 8)) +
+                                           unsigned("000"&reg_last_vals(7 downto 0));
+
+    reg_div <= shr(reg_add,"11");
+    o_param <= std_logic_vector(reg_div(7 downto 0));
 
 end Behavioral;

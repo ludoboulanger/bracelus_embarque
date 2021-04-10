@@ -73,7 +73,7 @@ begin
 	          i_strobe => i_strobe,
               i_echantillon => i_echantillon,
               o_echantillon_pret => s_cpt_pret,
-              o_cpt => o_cpt
+              o_cpt => s_cpt_val
              );
              
     inst_moy: calcul_moyenne 
@@ -86,5 +86,5 @@ begin
         o_param  => s_moyenne                                   
     );
     
-    --o_cpt <= s_moyenne;
+    o_cpt <= s_moyenne;
 end Behavioral;
