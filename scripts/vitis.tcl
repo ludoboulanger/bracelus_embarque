@@ -14,9 +14,9 @@ set workspace C:/Users/ludov/Git/bracelus_embarque/work/bracelus_http
 set sourcePath C:/Users/ludov/Git/bracelus_embarque/vitisProj/src
 
 # Path pour le fichier .xsa
-set xsa_file C:/Users/ludov/Git/bracelus_embarque/work/bracelus_vhdl/Top.xsa
+set xsa_file C:/Users/ludov/Git/bracelus_embarque/work/bracelus_vhdl/bracelus_plateform.xsa
 
-set platform_name  bracelus_http_plateforme
+set platform_name  bracelus_http_plateform
 
 # Créer le workspace
 file delete -force $workspace
