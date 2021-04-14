@@ -1,0 +1,116 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Test page</title>
+
+</head>
+
+<br>
+<h1>Hello Ludovic</h1>
+
+<p>Rappel de bouger : </p>
+<b><p id="bouger">inconnu</p></b>
+
+<p>L'état du capteur de mouvement : </p>
+<b><p id="capt_mouv">inconnu</p></b>
+
+<p>Rythme cardiaque moyen : </p>
+<b><p id="bpm">inconnu</p></b>
+
+<button id="mouvBtn">Mouvement</button><br>
+<button id="cardiacBtn">Cardiaque</button>
+
+
+<script>
+	const url='http://192.168.1.10';
+
+    const update_capt_mouv = () =>
+    {
+        // Retourne une donnee au hasard dans un array. Dans le fond une variation des donnees indique beaucoup de mouvement
+        // tandis que des donnees relativement stable indique aucun mouvement
+        // TODO: Read direct du csv pour simuler ces donnees
+        const http = new XMLHttpRequest();
+        const endpoint=`${url}/analyse/activite_physique`;
+
+        http.open("GET", endpoint);
+        http.send();
+
+        http.onreadystatechange = function() {
+            document.getElementById("capt_mouv").innerHTML = http.responseText;
+        }
+    }
+
+    const  update_bpm = () =>
+    {
+        // Retourne une donnee provenant dun electro cardiogramme simule
+        const http = new XMLHttpRequest();
+        const endpoint=`${url}/analyse/bpm`;
+
+        http.open("GET", endpoint);
+        http.send();
+
+        http.onreadystatechange = function() {
+            document.getElementById("bpm").innerHTML = http.responseText;
+        }
+    }
+
+    const getRappelBouger = () => {
+        const http = new XMLHttpRequest();
+        const endpoint=`${url}/analyse/rappel`;
+
+        http.open("GET", endpoint);
+        http.send();
+
+        http.onreadystatechange = function() {
+            document.getElementById("bouger").innerHTML = http.responseText;
+        }
+    }
+
+    const postOLED = (param) => {
+        const http = new XMLHttpRequest();
+        const endpoint=`${url}/oled/display`;
+
+        let data = {
+            mode : param
+        }
+
+        http.open('POST', endpoint, true);
+
+        // set headers
+        http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // send request
+        http.send(JSON.stringify(data));
+
+        // listen for `load` event
+        http.onload = () => {
+            console.log(http.responseText);
+        }
+    }
+
+
+    window.setInterval(update_capt_mouv, 1000);
+    window.setInterval(update_bpm, 1000);
+    window.setInterval(getRappelBouger, 100);
+;
+    cardiacBtn = document.getElementById("cardiacBtn");
+    mouvBtn = document.getElementById("mouvBtn");
+
+    cardiacBtn.addEventListener("click", () => {
+        console.log("cardiacBtn Clicked!");
+        postOLED(0);
+    });
+
+    mouvBtn.addEventListener("click", () => {
+        console.log("mouvBtn Clicked!");
+        postOLED(1);
+    });
+
+</script>
+
+</body>
+
+</html>

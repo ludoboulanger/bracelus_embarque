@@ -48,6 +48,9 @@ int 			get_o2();
 
 u16 read_analyse_mouv_ip0();
 u16 read_analyse_mouv_ip1();
+u16 read_analyse_cardio0();
+u16 read_analyse_cardio1();
+
 float get_sample_voltage_ADC();
 
 void 			initOLEDDevice();

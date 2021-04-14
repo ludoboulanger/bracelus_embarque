@@ -125,9 +125,14 @@ char* get_zone_cardiaque() {
 
 int get_bpm()
 {
-	int rythme = rand() % 80 + 50;
+	int urgence = read_analyse_cardio1();
+	int rythme = read_analyse_cardio0();
 
-	return rythme;
+	if (urgence == 1) {
+		return 0;
+	} else {
+		return 6000/rythme;
+	}
 }
 
 int get_o2()
@@ -150,7 +155,13 @@ u16 read_analyse_mouv_ip1()
 
 u16 read_analyse_cardio0()
 {
-	u16 rawData =  CARDIOANALYSEIP_mReadReg(MY_MOUV_CARDIO_IP_BASEADDRESS, 0x0) & 0xFFF;
+	u16 rawData =  CARDIOANALYSEIP_mReadReg(MY_MOUV_CARDIO_IP_BASEADDRESS, CARDIOANALYSEIP_S00_AXI_SLV_REG0_OFFSET) & 0xFFF;
+	return rawData;
+}
+
+u16 read_analyse_cardio1()
+{
+	u16 rawData =  CARDIOANALYSEIP_mReadReg(MY_MOUV_CARDIO_IP_BASEADDRESS, CARDIOANALYSEIP_S00_AXI_SLV_REG1_OFFSET) & 0xFFF;
 	return rawData;
 }
 
@@ -204,7 +215,11 @@ void updateOLEDDevice() {
 			updateOLED(&oledDevice, "Zone Nulle");
 		}
 	} else {
-		updateOLED(&oledDevice ,"Cardiaque");
+		int rythme = get_bpm();
+		char buf[10];
+
+		sprintf(buf, "%d bpm", rythme);
+		updateOLED(&oledDevice , buf);
 	}
 
 }

@@ -8,15 +8,16 @@
 set app_name bracelus_test
 
 # spécifier le répertoire où placer le projet
-##set workspace C:/Users/ludov/Git/bracelus_embarque/work/bracelus_vitis_test
-set workspace D:/Git/bracelus_embarque/work/bracelus_vitis
+set workspace C:/Users/ludov/Git/bracelus_embarque/work/bracelus_vitis_test
+#set workspace D:/Git/bracelus_embarque/work/bracelus_vitis
 
 # Paths pour les fichiers sources c/c++/h
-set sourcePath D:/Git/bracelus_embarque/vitisProj/test
+set sourcePath C:/Users/ludov/Git/bracelus_embarque/vitisProj/test
+# set sourcePath D:/Git/bracelus_embarque/vitisProj/test
 
 # Path pour le fichier .xsa
-set xsa_file D:/Git/bracelus_embarque/work/bracelus_vhdl/Top.xsa
-
+set xsa_file C:/Users/ludov/Git/bracelus_embarque/work/bracelus_vhdl/Top.xsa
+#set xsa_file D:/Git/bracelus_embarque/work/bracelus_vhdl/Top.xsa
 set platform_name  bracelus_test_plateforme
 
 # Créer le workspace

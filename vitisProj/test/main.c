@@ -78,16 +78,15 @@ int main()
 		// lire la tension provenant du PmodAD1
 		currentVoltage = AD1_GetSampleVoltage();
 
-
 		// Affichage graduel du voltage sur le Pmod 8LD
 		// 3.3V => tous les leds allumés
 		// 0.0V => tous les leds éteints
-		pmod8LDvalue = 0xFF << (8 - (u8)(currentVoltage / ReferenceVoltage * 8));
-//		if (currentVoltage == 0) {
-//			pmod8LDvalue = 0;
-//		} else {
-//			pmod8LDvalue = 255;
-//		}
+		// pmod8LDvalue = 0xFF << (8 - (u8)(currentVoltage / ReferenceVoltage * 8));
+		if (currentVoltage == 0) {
+			pmod8LDvalue = 0;
+		} else {
+			pmod8LDvalue = 255;
+		}
 
 		GPIO_setPins(&pmod8LD,pmod8LDvalue);
 
@@ -117,9 +116,18 @@ u16 AD1_GetSampleRaw()
 	u16 rawData1 =  MOUVANALYSEIP_mReadReg(MOUV_IP_BASE_ADDR, MOUVANALYSEIP_MouvAnalyseIP_SLV_REG1_OFFSET) & 0xFFF;
 
 	u16 rawData2 =  CARDIOANALYSEIP_mReadReg(CARDIO_IP_BASE_ADDR, CARDIOANALYSEIP_S00_AXI_SLV_REG0_OFFSET) & 0xFFF;
-	xil_printf("0x%x  0x%x 0x%x %d \n\r",rawData0, rawData1, rawData2, 6000/rawData2);
+	u16 rawData3 =  CARDIOANALYSEIP_mReadReg(CARDIO_IP_BASE_ADDR, CARDIOANALYSEIP_S00_AXI_SLV_REG1_OFFSET) & 0xFFF;
 
-	return rawData2;
+	u16 bpm;
+
+	if (rawData3 == 1) {
+		bpm = 0;
+	} else {
+		bpm = 6000/rawData2;
+	}
+	xil_printf("0x%x  0x%x %d \n\r",rawData0, rawData1, bpm);
+
+	return rawData1;
 }
 
 
