@@ -17,6 +17,7 @@ entity CardioAnalyseIP_v1_0_S00_AXI is
 	port (
 		-- Users to add ports here
         i_analyse : in std_logic_vector(7 downto 0);
+		i_urgence : in std_logic;
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 
@@ -350,7 +351,7 @@ begin
 	-- and the slave is ready to accept the read address.
 	slv_reg_rden <= axi_arready and S_AXI_ARVALID and (not axi_rvalid) ;
 
-	process (slv_reg0,slv_reg1,i_analyse, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
+	process (slv_reg0,slv_reg1,i_analyse,i_urgence, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
 	variable loc_addr :std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
 	begin
 	    -- Address decoding for reading registers
@@ -359,7 +360,7 @@ begin
 	      when b"00" =>
 	        reg_data_out <= slv_reg0(31 downto 8) & i_analyse;
 	      when b"01" =>
-	        reg_data_out <= slv_reg1;
+	        reg_data_out <= slv_reg1(31 downto 1) & i_urgence;
 	      when b"10" =>
 	        reg_data_out <= slv_reg2;
 	      when b"11" =>

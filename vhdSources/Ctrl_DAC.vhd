@@ -523,7 +523,7 @@ type tableau_cardio is array (integer range 0 to nbEchantillonMemoireCardio - 1)
 --    x"800",
 --    x"5EE"
 --);
---constant mem_forme_signal_cardio : tableau_cardio := (others => x"000");
+constant mem_forme_signal_cardio_mort : tableau_cardio := (others => x"000");
 --    constant c_NbIteration : unsigned(3 downto 0) := "1000";
 constant mem_forme_signal_cardio_100 : tableau_cardio := (
     x"042",
@@ -2105,6 +2105,7 @@ begin
                            
         mem_forme_signal_cardio <= mem_forme_signal_cardio_60 when i_signal_select = "001" else
                            mem_forme_signal_cardio_80 when i_signal_select = "010" else
+                           mem_forme_signal_cardio_mort when i_signal_select = "100" else
                            mem_forme_signal_cardio_100;
 
         lireEchantillonMouv : process (i_reset, clk_DAC)

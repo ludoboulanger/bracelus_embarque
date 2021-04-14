@@ -209,10 +209,11 @@ proc create_root_design { parentCell } {
 
   # Create ports
   set i_adc_strobe [ create_bd_port -dir I i_adc_strobe ]
+  set i_analyse_cardio [ create_bd_port -dir I -from 7 -to 0 i_analyse_cardio ]
   set i_bclk [ create_bd_port -dir I i_bclk ]
   set i_clk1Hz [ create_bd_port -dir I i_clk1Hz ]
-  set i_analyse_cardio [ create_bd_port -dir I -from 7 -to 0 i_analyse_cardio ]
   set i_data_mouvement [ create_bd_port -dir I -from 11 -to 0 i_data_mouvement ]
+  set i_urgence_0 [ create_bd_port -dir I i_urgence_0 ]
   set o_mouv_analyse0 [ create_bd_port -dir O -from 1 -to 0 o_mouv_analyse0 ]
   set o_mouv_analyse1 [ create_bd_port -dir O -from 31 -to 0 o_mouv_analyse1 ]
 
@@ -751,10 +752,11 @@ proc create_root_design { parentCell } {
   connect_bd_net -net MouvAnalyseIP_0_o_data_out0 [get_bd_ports o_mouv_analyse0] [get_bd_pins MouvAnalyseIP_0/o_data_out0]
   connect_bd_net -net MouvAnalyseIP_0_o_data_out1 [get_bd_ports o_mouv_analyse1] [get_bd_pins MouvAnalyseIP_0/o_data_out1]
   connect_bd_net -net i_adc_strobe_0_1 [get_bd_ports i_adc_strobe] [get_bd_pins MouvAnalyseIP_0/i_adc_strobe]
+  connect_bd_net -net i_analyse_0_1 [get_bd_ports i_analyse_cardio] [get_bd_pins CardioAnalyseIP_0/i_analyse]
   connect_bd_net -net i_bclk_0_1 [get_bd_ports i_bclk] [get_bd_pins MouvAnalyseIP_0/i_bclk]
   connect_bd_net -net i_clk1Hz_0_1 [get_bd_ports i_clk1Hz] [get_bd_pins MouvAnalyseIP_0/i_clk1Hz]
-  connect_bd_net -net i_analyse_0_1 [get_bd_ports i_analyse_cardio] [get_bd_pins CardioAnalyseIP_0/i_analyse]
   connect_bd_net -net i_data_echantillon_0_1 [get_bd_ports i_data_mouvement] [get_bd_pins MouvAnalyseIP_0/i_data_echantillon]
+  connect_bd_net -net i_urgence_0_1 [get_bd_ports i_urgence_0] [get_bd_pins CardioAnalyseIP_0/i_urgence]
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins CardioAnalyseIP_0/s00_axi_aclk] [get_bd_pins MouvAnalyseIP_0/mouvanalyseip_aclk] [get_bd_pins PmodGPIO_0/s_axi_aclk] [get_bd_pins PmodOLED_0/s_axi_aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins ps7_0_axi_periph/M01_ACLK] [get_bd_pins ps7_0_axi_periph/M02_ACLK] [get_bd_pins ps7_0_axi_periph/M03_ACLK] [get_bd_pins ps7_0_axi_periph/M04_ACLK] [get_bd_pins ps7_0_axi_periph/M05_ACLK] [get_bd_pins ps7_0_axi_periph/M06_ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins rst_ps7_0_50M/slowest_sync_clk]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins rst_ps7_0_50M/ext_reset_in]
   connect_bd_net -net rst_ps7_0_50M_peripheral_aresetn [get_bd_pins CardioAnalyseIP_0/s00_axi_aresetn] [get_bd_pins MouvAnalyseIP_0/mouvanalyseip_aresetn] [get_bd_pins PmodGPIO_0/s_axi_aresetn] [get_bd_pins PmodOLED_0/s_axi_aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins axi_gpio_1/s_axi_aresetn] [get_bd_pins ps7_0_axi_periph/ARESETN] [get_bd_pins ps7_0_axi_periph/M00_ARESETN] [get_bd_pins ps7_0_axi_periph/M01_ARESETN] [get_bd_pins ps7_0_axi_periph/M02_ARESETN] [get_bd_pins ps7_0_axi_periph/M03_ARESETN] [get_bd_pins ps7_0_axi_periph/M04_ARESETN] [get_bd_pins ps7_0_axi_periph/M05_ARESETN] [get_bd_pins ps7_0_axi_periph/M06_ARESETN] [get_bd_pins ps7_0_axi_periph/S00_ARESETN] [get_bd_pins rst_ps7_0_50M/peripheral_aresetn]
