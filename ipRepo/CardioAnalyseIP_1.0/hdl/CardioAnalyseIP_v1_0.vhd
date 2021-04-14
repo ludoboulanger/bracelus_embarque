@@ -16,8 +16,8 @@ entity CardioAnalyseIP_v1_0 is
 	);
 	port (
 		-- Users to add ports here
-        i_data_echantillon : in std_logic_vector(11 downto 0);
-        o_data_out : out std_logic_vector(31 downto 0);
+        i_analyse : in std_logic_vector(7 downto 0);
+		i_urgence : in std_logic;
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 
@@ -56,8 +56,8 @@ architecture arch_imp of CardioAnalyseIP_v1_0 is
 		C_S_AXI_ADDR_WIDTH	: integer	:= 4
 		);
 		port (
-		i_data_echantillon : in std_logic_vector(11 downto 0);
-        o_data_out : out std_logic_vector(31 downto 0);
+		i_analyse : in std_logic_vector(7 downto 0);
+		i_urgence : in std_logic;
         
 		S_AXI_ACLK	: in std_logic;
 		S_AXI_ARESETN	: in std_logic;
@@ -92,8 +92,8 @@ CardioAnalyseIP_v1_0_S00_AXI_inst : CardioAnalyseIP_v1_0_S00_AXI
 		C_S_AXI_ADDR_WIDTH	=> C_S00_AXI_ADDR_WIDTH
 	)
 	port map (
-	    i_data_echantillon => i_data_echantillon,
-        o_data_out         => o_data_out,
+	    i_analyse => i_analyse,
+		i_urgence => i_urgence,
         
 		S_AXI_ACLK	=> s00_axi_aclk,
 		S_AXI_ARESETN	=> s00_axi_aresetn,

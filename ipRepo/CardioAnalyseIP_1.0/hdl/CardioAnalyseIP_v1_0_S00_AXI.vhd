@@ -16,8 +16,8 @@ entity CardioAnalyseIP_v1_0_S00_AXI is
 	);
 	port (
 		-- Users to add ports here
-        i_data_echantillon : in std_logic_vector(11 downto 0);
-        o_data_out : out std_logic_vector(31 downto 0);
+        i_analyse : in std_logic_vector(7 downto 0);
+		i_urgence : in std_logic;
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 
@@ -86,6 +86,10 @@ end CardioAnalyseIP_v1_0_S00_AXI;
 
 architecture arch_imp of CardioAnalyseIP_v1_0_S00_AXI is
 
+
+    
+
+
 	-- AXI4LITE signals
 	signal axi_awaddr	: std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
 	signal axi_awready	: std_logic;
@@ -118,8 +122,6 @@ architecture arch_imp of CardioAnalyseIP_v1_0_S00_AXI is
 	signal reg_data_out	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
 	signal byte_index	: integer;
 	signal aw_en	: std_logic;
-	
-	signal s_data_out	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0) := (others => '0');
 
 begin
 	-- I/O Connections assignments
@@ -258,7 +260,7 @@ begin
 	              end if;
 	            end loop;
 	          when others =>
-	            slv_reg0 <= slv_reg0;
+	            slv_reg0 <= slv_reg0(31 downto 8)&i_analyse;
 	            slv_reg1 <= slv_reg1;
 	            slv_reg2 <= slv_reg2;
 	            slv_reg3 <= slv_reg3;
@@ -349,16 +351,16 @@ begin
 	-- and the slave is ready to accept the read address.
 	slv_reg_rden <= axi_arready and S_AXI_ARVALID and (not axi_rvalid) ;
 
-	process (s_data_out, slv_reg1, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
+	process (slv_reg0,slv_reg1,i_analyse,i_urgence, slv_reg2, slv_reg3, axi_araddr, S_AXI_ARESETN, slv_reg_rden)
 	variable loc_addr :std_logic_vector(OPT_MEM_ADDR_BITS downto 0);
 	begin
 	    -- Address decoding for reading registers
 	    loc_addr := axi_araddr(ADDR_LSB + OPT_MEM_ADDR_BITS downto ADDR_LSB);
 	    case loc_addr is
 	      when b"00" =>
-	        reg_data_out <= s_data_out;
+	        reg_data_out <= slv_reg0(31 downto 8) & i_analyse;
 	      when b"01" =>
-	        reg_data_out <= slv_reg1;
+	        reg_data_out <= slv_reg1(31 downto 1) & i_urgence;
 	      when b"10" =>
 	        reg_data_out <= slv_reg2;
 	      when b"11" =>
@@ -386,13 +388,8 @@ begin
 	  end if;
 	end process;
 
-
-	-- Add user logic here
+    
     --s_data_out contient le signal analyse
-    
-    s_data_out(11 downto 0) <= i_data_echantillon;
-    
-    o_data_out <= s_data_out;
 	-- User logic ends
 
 end arch_imp;

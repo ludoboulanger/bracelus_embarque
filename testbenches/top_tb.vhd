@@ -41,12 +41,14 @@ component Ctrl_AD1 is
 port ( 
     reset                       : in    std_logic;  
     clk_ADC                     : in    std_logic; 						-- Horloge à fournir à l'ADC
-    i_DO                        : in    std_logic;                      -- Bit de donnée en provenance de l'ADC         
+    i_DO0                        : in    std_logic;                      -- Bit de donnée en provenance de l'ADC         
+    i_DO1                        : in    std_logic;                      -- Bit de donnée en provenance de l'ADC         
     o_ADC_nCS                   : out   std_logic;                      -- Signal Chip select vers l'ADC 
-	----
+	
     i_ADC_Strobe                : in    std_logic;                      -- Synchronisation: strobe déclencheur de la séquence de réception    
     o_echantillon_pret_strobe   : out   std_logic;                      -- strobe indicateur d'une réception complète d'un échantillon  
-    o_echantillon               : out   std_logic_vector (11 downto 0)  -- valeur de l'échantillon reçu
+    o_echantillon_mouv          : out   std_logic_vector (11 downto 0); -- valeur de l'échantillon reçu
+    o_echantillon_cardio        : out   std_logic_vector (11 downto 0)-- valeur de l'échantillon reçu
 );
 end component;
 
@@ -144,7 +146,8 @@ begin
     port map (
         reset => sim_reset,
         clk_ADC => adc_clk,
-        i_DO => i_dat_ADC,     
+        i_DO1 => i_dat_ADC,     
+        i_DO2 => i_dat_ADC,     
         o_ADC_nCS => ADC_ncs,
         i_ADC_Strobe => sim_adc_strobe, -- A changer si on veut que ca fonctionne fr
         o_echantillon_pret_strobe => ech_pret_strobe,

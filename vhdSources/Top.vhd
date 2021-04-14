@@ -64,53 +64,53 @@ architecture Behavioral of Top is
     
     component design_1_wrapper is
     port (
-        DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
-        DDR_ba : inout STD_LOGIC_VECTOR ( 2 downto 0 );
-        DDR_cas_n : inout STD_LOGIC;
-        DDR_ck_n : inout STD_LOGIC;
-        DDR_ck_p : inout STD_LOGIC;
-        DDR_cke : inout STD_LOGIC;
-        DDR_cs_n : inout STD_LOGIC;
-        DDR_dm : inout STD_LOGIC_VECTOR ( 3 downto 0 );
-        DDR_dq : inout STD_LOGIC_VECTOR ( 31 downto 0 );
-        DDR_dqs_n : inout STD_LOGIC_VECTOR ( 3 downto 0 );
-        DDR_dqs_p : inout STD_LOGIC_VECTOR ( 3 downto 0 );
-        DDR_odt : inout STD_LOGIC;
-        DDR_ras_n : inout STD_LOGIC;
-        DDR_reset_n : inout STD_LOGIC;
-        DDR_we_n : inout STD_LOGIC;
-        FIXED_IO_ddr_vrn : inout STD_LOGIC;
-        FIXED_IO_ddr_vrp : inout STD_LOGIC;
-        FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
-        FIXED_IO_ps_clk : inout STD_LOGIC;
-        FIXED_IO_ps_porb : inout STD_LOGIC;
-        FIXED_IO_ps_srstb : inout STD_LOGIC;
-        Pmod_8LD_pin10_io : inout STD_LOGIC;
-        Pmod_8LD_pin1_io : inout STD_LOGIC;
-        Pmod_8LD_pin2_io : inout STD_LOGIC;
-        Pmod_8LD_pin3_io : inout STD_LOGIC;
-        Pmod_8LD_pin4_io : inout STD_LOGIC;
-        Pmod_8LD_pin7_io : inout STD_LOGIC;
-        Pmod_8LD_pin8_io : inout STD_LOGIC;
-        Pmod_8LD_pin9_io : inout STD_LOGIC;
-        Pmod_OLED_pin10_io : inout STD_LOGIC;
-        Pmod_OLED_pin1_io : inout STD_LOGIC;
-        Pmod_OLED_pin2_io : inout STD_LOGIC;
-        Pmod_OLED_pin3_io : inout STD_LOGIC;
-        Pmod_OLED_pin4_io : inout STD_LOGIC;
-        Pmod_OLED_pin7_io : inout STD_LOGIC;
-        Pmod_OLED_pin8_io : inout STD_LOGIC;
-        Pmod_OLED_pin9_io : inout STD_LOGIC;
-        i_adc_strobe : in STD_LOGIC;
-        i_bclk : in STD_LOGIC;
-        i_clk1Hz : in STD_LOGIC;
-        i_data_cardio : in STD_LOGIC_VECTOR ( 11 downto 0 );
-        i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
-        i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
-        o_cardio_analyse : out STD_LOGIC_VECTOR ( 31 downto 0 );
-        o_leds_tri_o : out STD_LOGIC_VECTOR ( 3 downto 0 );
-        o_mouv_analyse0 : out STD_LOGIC_VECTOR ( 1 downto 0 );
-        o_mouv_analyse1 : out STD_LOGIC_VECTOR ( 31 downto 0 )
+            DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
+    DDR_ba : inout STD_LOGIC_VECTOR ( 2 downto 0 );
+    DDR_cas_n : inout STD_LOGIC;
+    DDR_ck_n : inout STD_LOGIC;
+    DDR_ck_p : inout STD_LOGIC;
+    DDR_cke : inout STD_LOGIC;
+    DDR_cs_n : inout STD_LOGIC;
+    DDR_dm : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+    DDR_dq : inout STD_LOGIC_VECTOR ( 31 downto 0 );
+    DDR_dqs_n : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+    DDR_dqs_p : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+    DDR_odt : inout STD_LOGIC;
+    DDR_ras_n : inout STD_LOGIC;
+    DDR_reset_n : inout STD_LOGIC;
+    DDR_we_n : inout STD_LOGIC;
+    FIXED_IO_ddr_vrn : inout STD_LOGIC;
+    FIXED_IO_ddr_vrp : inout STD_LOGIC;
+    FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
+    FIXED_IO_ps_clk : inout STD_LOGIC;
+    FIXED_IO_ps_porb : inout STD_LOGIC;
+    FIXED_IO_ps_srstb : inout STD_LOGIC;
+    Pmod_8LD_pin10_io : inout STD_LOGIC;
+    Pmod_8LD_pin1_io : inout STD_LOGIC;
+    Pmod_8LD_pin2_io : inout STD_LOGIC;
+    Pmod_8LD_pin3_io : inout STD_LOGIC;
+    Pmod_8LD_pin4_io : inout STD_LOGIC;
+    Pmod_8LD_pin7_io : inout STD_LOGIC;
+    Pmod_8LD_pin8_io : inout STD_LOGIC;
+    Pmod_8LD_pin9_io : inout STD_LOGIC;
+    Pmod_OLED_pin10_io : inout STD_LOGIC;
+    Pmod_OLED_pin1_io : inout STD_LOGIC;
+    Pmod_OLED_pin2_io : inout STD_LOGIC;
+    Pmod_OLED_pin3_io : inout STD_LOGIC;
+    Pmod_OLED_pin4_io : inout STD_LOGIC;
+    Pmod_OLED_pin7_io : inout STD_LOGIC;
+    Pmod_OLED_pin8_io : inout STD_LOGIC;
+    Pmod_OLED_pin9_io : inout STD_LOGIC;
+    i_adc_strobe : in STD_LOGIC;
+    i_analyse_cardio : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    i_bclk : in STD_LOGIC;
+    i_clk1Hz : in STD_LOGIC;
+    i_data_mouvement : in STD_LOGIC_VECTOR ( 11 downto 0 );
+    i_sw_tri_i : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    i_urgence_0 : in STD_LOGIC;
+    o_leds_tri_o : out STD_LOGIC_VECTOR ( 3 downto 0 );
+    o_mouv_analyse0 : out STD_LOGIC_VECTOR ( 1 downto 0 );
+    o_mouv_analyse1 : out STD_LOGIC_VECTOR ( 31 downto 0 )
     );
     end component;
     
@@ -208,7 +208,14 @@ architecture Behavioral of Top is
               reset           : in    std_logic; 
               o_val_cpt       : out   std_logic_vector (nbits-1 downto 0)
               );
-    end component;  
+    end component; 
+    
+    component Analyse_cardio is
+    Port ( i_echantillon : in std_logic_vector(11 downto 0);
+           i_bclk : in STD_LOGIC;
+           i_strobe : in STD_LOGIC;
+           o_cpt : out std_logic_vector(7 downto 0));
+    end component; 
     
     signal clk_5MHz                     : std_logic;
      signal clk_1Hz                     : std_logic;
@@ -260,6 +267,7 @@ architecture Behavioral of Top is
     signal q_leds          : std_logic_vector ( 3 downto 0 ) := (others => '1');
     signal q_Pmod_8LD      : std_logic_vector ( 7 downto 0 ) := (others => '1');
     signal s_urgence_cardiaque : std_logic;
+     signal s_analyse_cardio : std_logic_vector(7 downto 0);
     
     
      
@@ -302,6 +310,7 @@ begin
     begin
         adc_strobe <= q_adc_lire and not(q_prec_adc_lire);
     end process; 
+        
      
     Controleur_ADC :  Ctrl_AD1 
     port map(
@@ -386,9 +395,18 @@ begin
         i_clk1Hz => clk_1Hz,
         i_adc_strobe=> adc_strobe,
         i_data_mouvement=> d_echantillon_mouv,
-        i_data_cardio   => d_echantillon_cardio,
+        i_analyse_cardio   => s_analyse_cardio,
+        i_urgence_0 => s_urgence_cardiaque,
         i_sw_tri_i=> i_sw,
         o_leds_tri_o=> open
+    );
+    
+    inst_analy_cardio: Analyse_cardio
+    port map(
+    i_echantillon => d_echantillon_cardio,
+    i_bclk => clk_5MHz,
+    i_strobe => adc_strobe,
+    o_cpt => s_analyse_cardio
     );
 
     o_DAC_CLK <= source_clk_5MHz;

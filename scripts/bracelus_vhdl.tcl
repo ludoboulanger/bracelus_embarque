@@ -52,6 +52,10 @@ proc checkRequiredFiles { origin_dir} {
    "$origin_dir/../vhdSources/AD7476_mef.vhd" \
    "$origin_dir/../vhdSources/Ctrl_AD1.vhd" \
    "$origin_dir/../vhdSources/Ctrl_DAC.vhd" \
+   "$origin_dir/../vhdSources/Analyse_cardio.vhd" \
+   "$origin_dir/../vhdSources/calcul_moyenne.vhd" \
+   "$origin_dir/../vhdSources/compteur_nbits_strb.vhd" \
+   "$origin_dir/../vhdSources/mef_bpm.vhd" \
    "$origin_dir/../vhdSources/Synchro_Horloges.vhd" \
    "$origin_dir/../vhdSources/compteur_nbits.vhd" \
    "$origin_dir/../vhdSources/dac_mef.vhd" \
@@ -222,6 +226,10 @@ set files [list \
  [file normalize "${origin_dir}/../vhdSources/AD7476_mef.vhd"]\
  [file normalize "${origin_dir}/../vhdSources/Ctrl_AD1.vhd"]\
  [file normalize "${origin_dir}/../vhdSources/Ctrl_DAC.vhd"]\
+ [file normalize "$origin_dir/../vhdSources/Analyse_cardio.vhd"] \
+ [file normalize "$origin_dir/../vhdSources/calcul_moyenne.vhd"] \
+ [file normalize "$origin_dir/../vhdSources/compteur_nbits_strb.vhd"] \
+ [file normalize "$origin_dir/../vhdSources/mef_bpm.vhd"] \
  [file normalize "${origin_dir}/../vhdSources/Synchro_Horloges.vhd"]\
  [file normalize "${origin_dir}/../vhdSources/compteur_nbits.vhd"]\
  [file normalize "${origin_dir}/../vhdSources/dac_mef.vhd"]\
@@ -255,6 +263,29 @@ set file "${origin_dir}/../vhdSources/Ctrl_DAC.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "${origin_dir}/../vhdSources/Analyse_cardio.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "${origin_dir}/../vhdSources/calcul_moyenne.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+
+set file "${origin_dir}/../vhdSources/compteur_nbits_strb.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+
+set file "${origin_dir}/../vhdSources/mef_bpm.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
 
 set file "${origin_dir}/../vhdSources/Synchro_Horloges.vhd"
 set file [file normalize $file]
