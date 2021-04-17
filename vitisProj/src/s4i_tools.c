@@ -207,11 +207,11 @@ void updateOLEDDevice() {
 	u16 res = get_mouv_donnee();
 	if (oledSelector == '1') {
 		if (res == 2) {
-			updateOLED(&oledDevice, "Zone Intense");
+			updateOLED(&oledDevice, "Elevee");
 		} else if (res == 1) {
-			updateOLED(&oledDevice ,"Zone Basse");
+			updateOLED(&oledDevice ,"Moderee");
 		} else {
-			updateOLED(&oledDevice, "Zone Nulle");
+			updateOLED(&oledDevice, "Sedentaire");
 		}
 	} else {
 		int rythme = get_bpm();

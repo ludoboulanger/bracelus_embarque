@@ -234,11 +234,11 @@ int do_http_get(int sd, char *req, int rlen)
     	u16 res = get_mouv_donnee();
     	// xil_printf("Result Mouvement: %d\r\n", res);
     	if (res == 2) {
-    		sprintf(mouv_buf, "{\"niveau\": \"Zone Intense\"}");
+    		sprintf(mouv_buf, "{\"niveau\": \"Elevee\"}");
     	} else if (res == 1) {
-    		sprintf(mouv_buf, "{\"niveau\": \"Zone Basse\"}");
+    		sprintf(mouv_buf, "{\"niveau\": \"Moderee\"}");
     	} else {
-    		sprintf(mouv_buf, "{\"niveau\": \"Zone Nulle\"}");
+    		sprintf(mouv_buf, "{\"niveau\": \"Sedentaire\"}");
     	}
 
     	unsigned int mouv_len = strlen(mouv_buf);
