@@ -29,10 +29,7 @@ PmodGPIO pmod8LD;
 char oledSelector = '1';
 void s4i_init_hw()
 {
-    // Initialise l'accï¿½s au matÅ½riel GPIO pour s4i_get_sws_state().
-	XGpio_Initialize(&s4i_xgpio_input_sws, XPAR_AXI_GPIO_0_DEVICE_ID);
-	XGpio_SetDataDirection(&s4i_xgpio_input_sws, 1, 0xF);
-
+    xil_printf("Ready to Receive incoming Requests\n\r");
 }
 
 int s4i_is_cmd_sws(char *buf)
@@ -90,9 +87,6 @@ unsigned int s4i_get_sws_state()
 }
 
 u16 get_mouv_donnee() {
-
-	// Pour l'instant on génère un nombre et on choisi le niveau d'activité selon ce dernier
-	// int niv_act = rand() % 3;
 
 	u16 resultat_mouvement = read_analyse_mouv_ip0();
 	return resultat_mouvement;
@@ -194,6 +188,11 @@ void update8LDDevice() {
 		pmod8LDvalue = 255;
 	}
 	GPIO_setPins(&pmod8LD,pmod8LDvalue);
+}
+
+void initSwitches() {
+	XGpio_Initialize(&s4i_xgpio_input_sws, XPAR_AXI_GPIO_0_DEVICE_ID);
+	XGpio_SetDataDirection(&s4i_xgpio_input_sws, 1, 0xF);
 }
 
 void init8LDDevice() {

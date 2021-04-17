@@ -46,19 +46,21 @@ int				get_reminder();
 // Autre
 int 			get_o2();
 
-u16 read_analyse_mouv_ip0();
-u16 read_analyse_mouv_ip1();
-u16 read_analyse_cardio0();
-u16 read_analyse_cardio1();
+u16 			read_analyse_mouv_ip0();
+u16 			read_analyse_mouv_ip1();
+u16 			read_analyse_cardio0();
+u16 			read_analyse_cardio1();
 
-float get_sample_voltage_ADC();
+float 			get_sample_voltage_ADC();
+
+void 			initSwitches();
 
 void 			initOLEDDevice();
 void 			updateOLEDDevice();
 void 			changeOLEDSelector(char selector);
 
-void init8LDDevice();
-void update8LDDevice();
+void 			init8LDDevice();
+void 			update8LDDevice();
 
 #endif /* SRC_S4I_TOOLS_H_ */
 

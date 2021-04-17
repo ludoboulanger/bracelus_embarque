@@ -214,10 +214,24 @@ void oled_thread() {
 	// initialisation du OLED
 	initOLEDDevice();
 	init8LDDevice();
+	initSwitches();
+	unsigned int sws = 0;
+	unsigned int lastSws = 0;
 
 	while(1) {
 		updateOLEDDevice();
 		update8LDDevice();
+		sws = s4i_get_sws_state();
+
+		if (sws != lastSws) {
+			if ((sws&8) == 8) {
+				changeOLEDSelector('0');
+			} else {
+				changeOLEDSelector('1');
+			}
+
+		}
+		lastSws = sws;
 	}
 	vTaskDelete( NULL );
 }
