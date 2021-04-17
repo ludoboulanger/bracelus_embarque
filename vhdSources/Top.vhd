@@ -157,6 +157,19 @@ architecture Behavioral of Top is
         o_cpt_val               : out std_logic_vector(7 downto 0)
     );
     end component;
+    
+    component mef_ctrl_pico is
+        Port (
+               i_clk                  : in STD_LOGIC;
+               i_adc_pret_strobe      : in STD_LOGIC;
+               i_cpt_val              : in STD_LOGIC_VECTOR(3 downto 0);
+               i_reset                : in STD_LOGIC;
+               ---------
+               o_pico_pret_ech        : out STD_LOGIC;
+               o_cpt_en               : out STD_LOGIC;
+               o_cpt_rst              : out STD_LOGIC
+               );
+    end component;
 
     component Ctrl_AD1 is
     port ( 
@@ -267,7 +280,14 @@ architecture Behavioral of Top is
     signal q_leds          : std_logic_vector ( 3 downto 0 ) := (others => '1');
     signal q_Pmod_8LD      : std_logic_vector ( 7 downto 0 ) := (others => '1');
     signal s_urgence_cardiaque : std_logic;
-     signal s_analyse_cardio : std_logic_vector(7 downto 0);
+    signal s_analyse_cardio : std_logic_vector(7 downto 0);
+    
+    signal s_cpt_pico_en : std_logic := '0';
+    signal s_cpt_pico_rst : std_logic := '0';
+    signal s_cpt_pico_val : std_logic_vector(3 downto 0);
+    signal s_adc_ech_pret : std_logic := '0';
+    
+    
     
     
      
@@ -413,12 +433,35 @@ begin
     o_ADC_CLK <= source_clk_5MHz;
 
       -- POUR LE PICOBLAZE --
+      
+    mef_pico : mef_ctrl_pico
+    port map (
+        i_clk                       => clk_5MHz,
+        i_adc_pret_strobe           => adc_strobe,
+        i_cpt_val                   => s_cpt_pico_val,
+        i_reset                     => reset,
+        ---- ----
+        o_pico_pret_ech             => s_adc_ech_pret,
+        o_cpt_en                    => s_cpt_pico_en,
+        o_cpt_rst                   => s_cpt_pico_rst
+    );
+    
+    cpt_pico : compteur_nbits
+    generic map (
+        nbits => 4
+    )
+    port map (
+        clk             => clk_5MHz,
+        i_en            => s_cpt_pico_en,
+        reset           => s_cpt_pico_rst,
+        o_val_cpt       => s_cpt_pico_val
+    );
 
     Picoblaze : Pblaze_uCtrler
     port map(
           clk                       =>  clk_5MHz,          
           i_ADC_echantillon         => d_echantillon_cardio,
-          i_ADC_echantillon_pret    => adc_strobe,
+          i_ADC_echantillon_pret    => s_adc_ech_pret,
           i_reset                   => reset, 
           o_urgence                 => s_urgence_cardiaque,
           o_cpt_val                 => open                     -- Ce port sert a visualiser le code assembleur sur le 8LD

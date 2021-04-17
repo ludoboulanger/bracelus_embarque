@@ -59,7 +59,6 @@ architecture Behavioral of pico_tb is
         i_reset                 : in std_logic;
         o_urgence               : out std_logic;
         o_cpt_val               : out std_logic_vector(7 downto 0)
-        --o_rst_ech_pret          : out std_logic
       );
     end component;
     
@@ -70,6 +69,19 @@ architecture Behavioral of pico_tb is
               reset           : in    std_logic; 
               o_val_cpt       : out   std_logic_vector (nbits-1 downto 0)
               );
+    end component;
+    
+    component mef_ctrl_pico is
+        Port (
+               i_clk                  : in STD_LOGIC;
+               i_adc_pret_strobe      : in STD_LOGIC;
+               i_cpt_val              : in STD_LOGIC_VECTOR(3 downto 0);
+               i_reset                : in STD_LOGIC;
+               ---------
+               o_pico_pret_ech        : out STD_LOGIC;
+               o_cpt_en               : out STD_LOGIC;
+               o_cpt_rst              : out STD_LOGIC
+               );
     end component;
     
     constant nbEchantillonMemoireCardio : integer := 500;
@@ -108,8 +120,10 @@ architecture Behavioral of pico_tb is
      
      signal s_urgence_cardiaque : std_logic;
      signal s_reset : std_logic := '0';
-     signal s_strobe_ech_pret : std_logic;
-     signal s_rst_ech_pret    : std_logic;
+     signal s_pico_ech_pret : std_logic;
+     signal s_cpt_val         : std_logic_vector(3 downto 0);
+     signal s_cpt_en          : std_logic;
+     signal s_cpt_rst         : std_logic;
 
 begin
 
@@ -121,6 +135,27 @@ begin
             sim_sys_clock <= '1';
             wait for sim_sys_clk_period/2;
        end process;
+       
+       
+    mef_pico : mef_ctrl_pico
+    port map (
+        i_clk                       => adc_clk,
+        i_adc_pret_strobe           => adc_strobe,
+        i_cpt_val                   => s_cpt_val,
+        i_reset                     => s_reset,
+        ---- ----
+        o_pico_pret_ech             => s_pico_ech_pret,
+        o_cpt_en                    => s_cpt_en,
+        o_cpt_rst                   => s_cpt_rst
+    );
+    
+    cpt_pico : compteur_nbits
+    port map (
+        clk             => adc_clk,
+        i_en            => s_cpt_en,
+        reset           => s_cpt_rst,
+        o_val_cpt       => s_cpt_val
+    );
     
 
 
@@ -128,11 +163,10 @@ begin
     port map(
           clk                       =>  adc_clk,          
           i_ADC_echantillon         => i_dat,
-          i_ADC_echantillon_pret    => adc_strobe,
+          i_ADC_echantillon_pret    => s_pico_ech_pret,
           i_reset                   => s_reset, 
           o_urgence                 => s_urgence_cardiaque,
           o_cpt_val                 => open                   -- Ce port sert a visualiser le code assembleur sur le 8LD
-          --o_rst_ech_pret            => s_rst_ech_pret
     );
     
     syncro : Synchro_Horloges
@@ -147,17 +181,6 @@ begin
         o_S_1Hz => open
    );
    
-   pico_counter : process(adc_clk)
-   begin
-        if (rising_edge(adc_clk)) then
-            if (adc_strobe = '1') then
-                s_strobe_ech_pret <= '1';
-            elsif (s_rst_ech_pret = '1') then
-                s_strobe_ech_pret <= '0'; 
-            end if;
-        end if;
-   end process;
-   
    
     sim_entree_adc : process (sim_reset, adc_clk)
     begin
@@ -165,12 +188,11 @@ begin
           index_data <= x"00";
           i_dat <= x"000";
        else
-          if(adc_clk'event and adc_clk = '1') and ADC_ncs = '0' then
+          if(adc_clk'event and adc_clk = '1') and adc_strobe = '1' then
              i_dat <= mem_forme_signal_cardio_mort(to_integer(index_data));
              if (index_data = mem_forme_signal_cardio_mort'length-1) then
                index_data <= x"00";
              else
-               rentre_donnee <= '0';
                index_data <= index_data + 1;
              end if;
           end if;
