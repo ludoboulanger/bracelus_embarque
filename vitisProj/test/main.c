@@ -117,6 +117,7 @@ u16 AD1_GetSampleRaw()
 
 	u16 rawData2 =  CARDIOANALYSEIP_mReadReg(CARDIO_IP_BASE_ADDR, CARDIOANALYSEIP_S00_AXI_SLV_REG0_OFFSET) & 0xFFF;
 	u16 rawData3 =  CARDIOANALYSEIP_mReadReg(CARDIO_IP_BASE_ADDR, CARDIOANALYSEIP_S00_AXI_SLV_REG1_OFFSET) & 0xFFF;
+	u16 rawData4 =  CARDIOANALYSEIP_mReadReg(CARDIO_IP_BASE_ADDR, CARDIOANALYSEIP_S00_AXI_SLV_REG2_OFFSET) & 0xFFFFFFFF;
 
 	u16 bpm;
 
@@ -125,7 +126,7 @@ u16 AD1_GetSampleRaw()
 	} else {
 		bpm = 6000/rawData2;
 	}
-	xil_printf("0x%x  0x%x %d \n\r",rawData0, rawData1, bpm);
+	xil_printf("0x%x  0x%x %d 0x%x 0x%x\n\r",rawData0, rawData1, bpm, rawData2, rawData4);
 
 	return rawData1;
 }

@@ -17,6 +17,7 @@ entity CardioAnalyseIP_v1_0 is
 	port (
 		-- Users to add ports here
         i_analyse : in std_logic_vector(7 downto 0);
+        i_cal_brulees : in std_logic_vector(31 downto 0);
 		i_urgence : in std_logic;
 		-- User ports ends
 		-- Do not modify the ports beyond this line
@@ -57,6 +58,7 @@ architecture arch_imp of CardioAnalyseIP_v1_0 is
 		);
 		port (
 		i_analyse : in std_logic_vector(7 downto 0);
+		i_cal_brulees : in std_logic_vector(31 downto 0);
 		i_urgence : in std_logic;
         
 		S_AXI_ACLK	: in std_logic;
@@ -93,6 +95,7 @@ CardioAnalyseIP_v1_0_S00_AXI_inst : CardioAnalyseIP_v1_0_S00_AXI
 	)
 	port map (
 	    i_analyse => i_analyse,
+	    i_cal_brulees => i_cal_brulees,
 		i_urgence => i_urgence,
         
 		S_AXI_ACLK	=> s00_axi_aclk,

@@ -161,7 +161,7 @@ begin
 
     Picoblaze : Pblaze_uCtrler
     port map(
-          clk                       =>  adc_clk,          
+          clk                       => adc_clk,          
           i_ADC_echantillon         => i_dat,
           i_ADC_echantillon_pret    => s_pico_ech_pret,
           i_reset                   => s_reset, 

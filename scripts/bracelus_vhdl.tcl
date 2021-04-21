@@ -66,12 +66,15 @@ proc checkRequiredFiles { origin_dir} {
    "$origin_dir/../vhdSources/myProgram.vhd" \
    "$origin_dir/../vhdSources/Pblaze_uCtrler.vhd" \
    "$origin_dir/../vhdSources/mef_ctrl_pico.vhd" \
+   "$origin_dir/../vhdSources/calories_brulees.vhd" \
+   "$origin_dir/../vhdSources/mef_calories_brulees.vhd" \
    "$origin_dir/../constraints/Atelier3_Constraintes.xdc" \
    "$origin_dir/../testbenches/top_tb.vhd" \
    "$origin_dir/../testbenches/fichier_top_tb.vhd" \
    "$origin_dir/../testbenches/ctrl_DAC_tb.vhd" \
    "$origin_dir/../testbenches/Ctrl_AD1_tb.vhd" \
    "$origin_dir/../testbenches/pico_tb.vhd" \
+   "$origin_dir/../testbenches/cardio_tb.vhd" \
   ]
   foreach ifile $files {
     if { ![file isfile $ifile] } {
@@ -242,6 +245,8 @@ set files [list \
  [file normalize "${origin_dir}/../vhdSources/myProgram.vhd"]\
  [file normalize "${origin_dir}/../vhdSources/Pblaze_uCtrler.vhd"]\
  [file normalize "${origin_dir}/../vhdSources/mef_ctrl_pico.vhd"]\
+ [file normalize "${origin_dir}/../vhdSources/calories_brulees.vhd"]\
+ [file normalize "${origin_dir}/../vhdSources/mef_calories_brulees.vhd"]\
 ]
 
 # ==>Ne pas créer de copies locales des fichiers sources dans le projet Vivado et garder une seule et unique version 
@@ -340,6 +345,16 @@ set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
 
+set file "${origin_dir}/../vhdSources/calories_brulees.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "${origin_dir}/../vhdSources/mef_calories_brulees.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
 # Set 'sources_1' fileset properties
 set obj [get_filesets sources_1]
 set_property -name "top" -value "Top" -objects $obj
@@ -377,6 +392,7 @@ set files [list \
  [file normalize "${origin_dir}/../testbenches/ctrl_DAC_tb.vhd"]\
  [file normalize "${origin_dir}/../testbenches/Ctrl_AD1_tb.vhd"]\
  [file normalize "${origin_dir}/../testbenches/pico_tb.vhd"]\
+ [file normalize "${origin_dir}/../testbenches/cardio_tb.vhd"]\
 ]
 add_files -norecurse -fileset $obj $files
 
@@ -405,6 +421,11 @@ set file_obj [get_files -of_objects [get_filesets sim_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj
 
 set file "${origin_dir}/../testbenches/pico_tb.vhd"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets sim_1] [list "*$file"]]
+set_property -name "file_type" -value "VHDL" -objects $file_obj
+
+set file "${origin_dir}/../testbenches/cardio_tb.vhd"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets sim_1] [list "*$file"]]
 set_property -name "file_type" -value "VHDL" -objects $file_obj

@@ -266,7 +266,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>46d8c394</spirit:value>
+            <spirit:value>0497566c</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -282,7 +282,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>46d8c394</spirit:value>
+            <spirit:value>0497566c</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -336,6 +336,23 @@
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
             <spirit:left spirit:format="long">7</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_vhdlsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_vhdlbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>i_cal_brulees</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">31</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -711,7 +728,7 @@
       <spirit:file>
         <spirit:name>hdl/CardioAnalyseIP_v1_0.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_b2277c19</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_48c3c2fe</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -840,8 +857,8 @@
         <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>CardioAnalyseIP_v1.0</xilinx:displayName>
-      <xilinx:coreRevision>25</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2021-04-14T16:15:51Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>27</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2021-04-18T18:11:54Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@405c583d_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/CardioAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@47e85000_ARCHIVE_LOCATION">d:/Git/bracelus_embarque/work/ip_repo/CardioAnalyseIP_1.0</xilinx:tag>
@@ -1186,14 +1203,45 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@59e2b4c6_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@3967a844_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@76fe8ea_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6570f8b8_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37ee517d_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@463bd59b_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1148f651_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8153385_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7be76daa_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@677e4e72_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29af2a4f_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20282a09_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b1ab463_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@672b2f3a_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@368ed551_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a08057d_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41efd9c_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@106ecee1_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5df1969a_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@73fc3082_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@58d1567e_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2461b8a9_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30424d72_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39ca4281_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@664d4be7_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@155b23c3_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d563ca_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29904a60_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c05711c_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71279aae_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48bfbfd1_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@95f0334_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@189ef615_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3560aeec_ARCHIVE_LOCATION">c:/Users/ludov/Git/bracelus_embarque/ipRepo/CardioAnalyseIP_1.0</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="7a63f3fc"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="ed1368d5"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="c8961b46"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="9ef2396d"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="55f059be"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="12c17802"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="6992ea72"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="9fa85a92"/>
     </xilinx:packagingInfo>
